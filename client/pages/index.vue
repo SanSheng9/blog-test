@@ -1,0 +1,62 @@
+<template>
+<div>
+  <h1 class="title">This is test-blog!</h1>
+  <div class="posts-list">
+  <post-card
+  class="post-card"
+  v-for="post in posts" :key="post.id"
+  :title='post.title'
+  :description='post.description'
+  :image='post.photo'
+  :id='post.id'
+  >
+</post-card>
+  </div>
+</div>
+</template>
+
+<script>
+import PostCard from "~/components/PostCard.vue";
+export default {
+  head() {
+    return {
+      title: 'Test-blog'
+    };
+  },
+  components: {
+    PostCard
+  },
+  async asyncData({ $axios, params }) {
+    try {
+    let response = await $axios.get("/posts")
+    let posts = response.data
+    return { posts };
+    } catch (e) {
+      return { posts: [] };
+    }
+  },
+  data() {
+    return {
+      posts: []
+      };
+  },
+  methods: {
+
+  }
+};
+</script>
+
+<style scoped>
+.title {
+  text-align: center;
+  margin: 10px 0px;
+}
+.posts-list{
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.post-card{
+  margin: 10px;
+}
+</style>
