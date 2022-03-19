@@ -1,6 +1,5 @@
 <template>
 <div>
-  <h1 class="title">This is test-blog!</h1>
   <div class="posts-list">
   <post-card
   class="post-card"
@@ -47,10 +46,7 @@ export default {
 </script>
 
 <style scoped>
-.title {
-  text-align: center;
-  margin: 10px 0px;
-}
+
 .posts-list{
   display: flex;
   justify-content: center;
