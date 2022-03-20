@@ -83,7 +83,7 @@ export default {
         formData.append(data, editedPost[data]);
       }
       try {
-        let response = await this.$axios.$patch(`/posts/${editedPost.id}/`, formData, config);
+        let response = await this.$axios.$patch(`api/posts/${editedPost.id}/`, formData, config);
         this.$router.push("/");
         console.log('formData: ', formData);
         console.log('response: ', response)

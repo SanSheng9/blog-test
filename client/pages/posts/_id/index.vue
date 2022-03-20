@@ -42,8 +42,8 @@ export default {
   methods: {
     async deletePost(id) {
       try {
-        await this.$axios.$delete(`/posts/${id}/`); // delete recipe
-        let newRecipes = await this.$axios.$get("/posts/"); // get new list of recipes
+        await this.$axios.$delete(`api/posts/${id}/`); // delete recipe
+        let newRecipes = await this.$axios.$get("api/posts/"); // get new list of recipes
         this.recipes = newRecipes; // update list of recipes
         this.$router.push("/");
       } catch (e) {

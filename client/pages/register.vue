@@ -59,7 +59,7 @@ export default {
     this.loading = true;
     let data = this.register;
     try {
-      await this.$axios.post('/users/', data);
+      await this.$axios.post('api/users/', data);
       this.$router.push('/login');
       this.loading = false;
 

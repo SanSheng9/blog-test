@@ -42,33 +42,27 @@ export default {
   ],
 
   axios: {
-    baseURL: "http://localhost:8000/api"
+    baseURL: "http://localhost:8000/"
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
   },
   auth: {
-    redirect: {
-      login: '/login',
-      logout: '/',
-      home: '/'
-    },
     strategies: {
       local: {
+  //      token: {
+  //        property: 'token',
+   //       global: true,
+          // required: true,
+          // type: 'Bearer'
+   //     },
         endpoints: {
-          login: {
-            url: '/user/login',
-            method: 'post',
-            propertyName: 'data.token',
-          },
-          logout: false,
-          user: false,
-        },
-        tokenType: '',
-        tokenName: 'x-auth',
-        autoFetchUser: false
-      },
-    },
+          login: { url: '/users/login/', method: 'post', propertyName: 'data.token'},
+          logout: { url: '/users/logout/', method: 'post' },
+          user: { url: '/users', method: 'get', propertyName: 'data'}
+        }
+      }
+    }
   }
 }

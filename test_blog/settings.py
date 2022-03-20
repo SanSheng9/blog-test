@@ -44,9 +44,9 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -131,6 +131,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
  # add this block below MIDDLEWARE
 CORS_ORIGIN_ALLOW_ALL = True
+ALLOWED_HOSTS=['*']
+CORS_ORIGIN_WHITELIST = (
+    'http://localhost:3000',
+)
 # add the following just below STATIC_URL
 MEDIA_URL = '/media/' # add this
 MEDIA_ROOT = BASE_DIR / 'media' # add this

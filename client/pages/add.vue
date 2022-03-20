@@ -83,7 +83,7 @@ export default {
         formData.append(data, this.post[data]);
       }
       try {
-        let response = await this.$axios.$post("/posts/", formData, config);
+        let response = await this.$axios.$post("api/posts/", formData, config);
         this.$router.push("/");
         console.log('formData: ', formData);
         console.log('response: ', response)
