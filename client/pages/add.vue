@@ -48,23 +48,21 @@ export default {
       title: "Add Post"
     };
   },
-  data() {
-    return {
+  data: () => ({
       post: {
         title: "",
-        picture: "",
+        photo: "",
         description: ""
       },
       preview: ""
-    };
-  },
+    }),
   methods: {
     onFileChange(e) {
       let files = e.target.files || e.dataTransfer.files;
       if (!files.length) {
         return;
       }
-      this.post.picture = files[0];
+      this.post.photo = files[0];
       this.createImage(files[0]);
     },
     createImage(file) {
@@ -86,7 +84,9 @@ export default {
       }
       try {
         let response = await this.$axios.$post("/posts/", formData, config);
-        this.$router.push("/posts/");
+        this.$router.push("/");
+        console.log('formData: ', formData);
+        console.log('response: ', response)
       } catch (e) {
         console.log(e);
       }

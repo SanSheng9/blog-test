@@ -7,7 +7,6 @@
   <div class="card-img-overlay">
     <h5 class="card-title">{{ title }}</h5>
     <nuxt-link :to="`/posts/${id}/`" class="btn btn-light">Открыть пост</nuxt-link>
-    <nuxt-link :to="`/posts/${id}/edit`" class="btn btn-light">Редактировать пост</nuxt-link>
   </div>
 </div>
 </div></div>
@@ -25,5 +24,6 @@ export default {
 <style>
 .post-card{
 max-width: 400px;
+min-width: 400px;
 }
 </style>

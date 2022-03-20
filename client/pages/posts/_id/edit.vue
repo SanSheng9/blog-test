@@ -5,7 +5,7 @@
         <h2 class="mb-3 display-4 text-uppercase">{{ post.title }}</h2>
       </div>
       <div class="col-md-6 mb-4">
-        <img v-if="!preview" class="img-fluid" style="width: 400px; border-radius: 10px; box-shadow: 0 1rem 1rem rgba(0,0,0,.7);"  :src="post.picture">
+        <img v-if="!preview" class="img-fluid" style="width: 400px; border-radius: 10px; box-shadow: 0 1rem 1rem rgba(0,0,0,.7);"  :src="post.photo">
         <img v-else class="img-fluid" style="width: 400px; border-radius: 10px; box-shadow: 0 1rem 1rem rgba(0,0,0,.7);"  :src="preview">
       </div>
       <div class="col-md-4">
@@ -72,8 +72,8 @@ export default {
     },
     async submitPost() {
       let editedPost = this.post
-      if (editedPost.post.indexOf("http://") != -1){
-        delete editedPost["picture"]
+      if (editedPost.photo.indexOf("http://") != -1){
+        delete editedPost["photo"]
       }
       const config = {
         headers: { "content-type": "multipart/form-data" }
@@ -84,7 +84,9 @@ export default {
       }
       try {
         let response = await this.$axios.$patch(`/posts/${editedPost.id}/`, formData, config);
-        this.$router.push("/posts/");
+        this.$router.push("/");
+        console.log('formData: ', formData);
+        console.log('response: ', response)
       } catch (e) {
         console.log(e);
       }
