@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     'blog',
+    'users.apps.UsersConfig',
 ]
 
 MIDDLEWARE = [
@@ -133,3 +134,5 @@ CORS_ORIGIN_ALLOW_ALL = True
 # add the following just below STATIC_URL
 MEDIA_URL = '/media/' # add this
 MEDIA_ROOT = BASE_DIR / 'media' # add this
+
+AUTH_USER_MODEL = 'users.CustomUser'

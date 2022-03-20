@@ -6,13 +6,13 @@
 
       <!-- Email input -->
       <div class="form-outline mb-4">
-        <input type="email" id="loginName" class="form-control" />
+        <input v-model="login.username" type="email" id="loginName" class="form-control" />
         <label class="form-label" for="loginName">Email or username</label>
       </div>
 
       <!-- Password input -->
       <div class="form-outline mb-4">
-        <input type="password" id="loginPassword" class="form-control" />
+        <input v-model="login.password" type="password" id="loginPassword" class="form-control" />
         <label class="form-label" for="loginPassword">Password</label>
       </div>
 
@@ -40,8 +40,41 @@
 
 <script>
 export default {
-  layout: 'form'
-}
+  layout: 'form',
+    data: () => ({
+    login: {
+      username: '',
+      password: ''
+    }
+  }),
+methods: {
+  async logIn() {
+    let data = this.login;
+    this.loading = true;
+    try {
+      let res = await this.$auth.loginWith('local', {
+        data
+      });
+      this.loading = false;
+      let user = res.data.data.user;
+      this.$auth.setUser(user);
+      this.$notify({
+        group: 'success',
+        title: 'Success!',
+        text: 'Welcome!'
+      });
+    } catch (error) {
+      this.loading = false;
+      this.$notify({
+        group: 'error',
+        title: 'Error!',
+        text: error.response
+          ? error.response.data.error
+          : 'Sorry an error occured, check your internet'
+      });
+    }
+  }
+}}
 </script>
 
 <style>
