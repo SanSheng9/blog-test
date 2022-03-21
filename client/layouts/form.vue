@@ -1,6 +1,6 @@
 <template>
 <div>
-  <Navbar />
+  <Navbar :watch='false' />
 <div class="wrapper">
     <!-- Pills navs -->
 <ul class="nav nav-pills nav-justified mb-3" id="ex1" role="tablist">
@@ -37,7 +37,7 @@ import Navbar from '@/components/Navbar.vue'
 export default {
 components: {
   Navbar
-}
+},
 }
 </script>
 
@@ -46,5 +46,15 @@ components: {
   max-width: 40%;
   margin: 0 auto;
   margin-top: 200px;
+}
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+    color: #212529;
+    background-color: #f8f9fa;
+    border-color: #f8f9fa;
+}
+a {
+    color: #808080;
+    text-decoration: none;
+    background-color: transparent;
 }
 </style>

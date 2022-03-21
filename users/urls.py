@@ -1,9 +1,9 @@
-from django.urls import path, include
-from rest_framework.routers import DefaultRouter
-from .views import CustomUsersViewSet
+from django.urls import include, path
 
-router = DefaultRouter()
-router.register(r'users', CustomUsersViewSet)
+from . import routers, views
+
 urlpatterns = [
-    path("", include(router.urls))
-]
+    path('data/', views.UserRetrieveUpdateDestroyAPIView.as_view(),
+         name='user-data'),
+    path('users/', include(routers.router.urls)),
+    ]

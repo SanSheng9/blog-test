@@ -4,12 +4,6 @@
   <div class="tab-pane fade" id="pills-register" role="tabpanel" aria-labelledby="tab-register">
     <form>
 
-      <!-- Username input -->
-      <div class="form-outline mb-4">
-        <input v-model='register.username' type="text" id="registerUsername" class="form-control" />
-        <label class="form-label" for="registerUsername">Username</label>
-      </div>
-
       <!-- Email input -->
       <div class="form-outline mb-4">
         <input v-model='register.email' type="email" id="registerEmail" class="form-control" />
@@ -43,31 +37,25 @@ export default {
   data: () => ({
     register: {
       password: '',
-      last_login: null,
-      username: '',
-      first_name: '',
-      last_name: '',
       email: '',
-      is_staff: false,
-      is_active: true,
-      groups: [1],
-      user_permissions: []
     }
   }),
   methods: {
-  async registerUser() {
-    this.loading = true;
-    let data = this.register;
-    try {
-      await this.$axios.post('api/users/', data);
-      this.$router.push('/login');
-      this.loading = false;
-
-    } catch (error) {
-      this.loading = false;
-    }
-  }
-}
+    async registerUser() {
+      let data = this.register
+      await this.$axios
+        .$post('accounts/users/', data)
+        .then((response) => {
+          console.log('Successful')
+        })
+        .catch((error) => {
+          console.log('errors:', error.response)
+        })
+      this.$auth.loginWith('local', {
+        data,
+      })
+    },
+  },
 }
 </script>
 
@@ -77,5 +65,16 @@ export default {
 }
 .fade:not(.show) {
     opacity: 100%;
+}
+.btn-primary {
+    color: #212529;
+    background-color: #f8f9fa;
+    border-color: #f8f9fa;
+}
+.btn-primary:hover,
+.btn-primary:active {
+    color: #f8f9fa;
+    background-color: #212529;
+    border-color: #212529;
 }
 </style>

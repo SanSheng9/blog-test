@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Navbar/>
+    <Navbar :watch='true'/>
     <nuxt/>
   </div>
 </template>

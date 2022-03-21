@@ -27,7 +27,7 @@ export default {
   },
   async asyncData({ $axios, params }) {
     try {
-    let response = await $axios.get("api/posts")
+    let response = await $axios.get("/api/posts/")
     let posts = response.data
     return { posts };
     } catch (e) {

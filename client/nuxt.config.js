@@ -51,18 +51,27 @@ export default {
   auth: {
     strategies: {
       local: {
-  //      token: {
-  //        property: 'token',
-   //       global: true,
-          // required: true,
-          // type: 'Bearer'
-   //     },
         endpoints: {
-          login: { url: '/users/login/', method: 'post', propertyName: 'data.token'},
-          logout: { url: '/users/logout/', method: 'post' },
-          user: { url: '/users', method: 'get', propertyName: 'data'}
-        }
-      }
-    }
-  }
+          login: {
+            url: 'token/login/',
+            method: 'post',
+            propertyName: 'auth_token',
+          },
+          logout: { url: 'token/logout/', method: 'post' },
+          user: {
+            url: 'accounts/data/',
+            method: 'get',
+            propertyName: false,
+          },
+        },
+        tokenType: 'Token',
+        tokenName: 'Authorization',
+      },
+      redirect: {
+        login: '/login',
+        home: '/',
+      },
+    },
+  },
+
 }

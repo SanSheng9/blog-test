@@ -1,10 +1,16 @@
-from django.shortcuts import render
-from rest_framework.viewsets import ModelViewSet
+from django.contrib.auth import get_user_model
+from rest_framework import generics, permissions
 
-from users.models import CustomUser
-from users.serializers import CustomUsersSerializer
+from . import serializers
+
+CustomUser = get_user_model()
 
 
-class CustomUsersViewSet(ModelViewSet):
+class UserRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = CustomUser.objects.all()
-    serializer_class = CustomUsersSerializer
+    serializer_class = serializers.CustomUserRetrieveSerializer
+    permission_classes = (permissions.IsAuthenticated,)
+
+
+    def get_object(self):
+        return self.request.user

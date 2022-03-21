@@ -1,7 +1,26 @@
-from rest_framework.serializers import ModelSerializer
-from users.models import CustomUser
+from django.contrib.auth import get_user_model
+from rest_framework import serializers, validators
 
-class CustomUsersSerializer(ModelSerializer):
+CustomUser = get_user_model()
+
+
+class CustomUserSerializer(serializers.ModelSerializer):
+    email = serializers.CharField(
+        write_only=True, validators=[validators.UniqueValidator(
+            message='This email already exists',
+            queryset=CustomUser.objects.all()
+        )]
+    )
+
     class Meta:
         model = CustomUser
-        fields = ['id', 'username', 'email', 'password', 'groups']
+        fields = ('email',
+                  'password')
+
+
+class CustomUserRetrieveSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = CustomUser
+        fields = ('email',
+                  'password', 'id')

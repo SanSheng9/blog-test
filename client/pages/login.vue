@@ -6,13 +6,13 @@
 
       <!-- Email input -->
       <div class="form-outline mb-4">
-        <input v-model="username" type="email" id="loginName" class="form-control" />
+        <input v-model="userData.email" type="email" id="loginName" class="form-control" />
         <label class="form-label" for="loginName">Email or username</label>
       </div>
 
       <!-- Password input -->
       <div class="form-outline mb-4">
-        <input v-model="password" type="password" id="loginPassword" class="form-control" />
+        <input v-model="userData.password" type="password" id="loginPassword" class="form-control" />
         <label class="form-label" for="loginPassword">Password</label>
       </div>
 
@@ -26,7 +26,7 @@
       </div>
 
       <!-- Submit button -->
-      <button @click.prevent='logIn()' type="submit" class="btn btn-primary btn-block mb-4">Sign in</button>
+      <button @click.prevent='logInUser()' type="submit" class="btn btn-primary btn-block mb-4">Sign in</button>
 
       <!-- Register buttons -->
       <div class="text-center">
@@ -40,37 +40,21 @@
 
 <script>
 export default {
-  layout: 'form',
-    data: () => ({
-      username: '',
-      password: '',
+    layout: 'form',
+  data: () => ({
+    userData: { email: '', password: '', showPassword: false },
   }),
-methods: {
-  async logIn() {
-    let data = this.login;
-    this.loading = true;
-    try {
-      let res = await this.$auth.loginWith('local', {
-        username: this.username,
-        password: this.password
-      });
-      this.loading = false;
-      let user = res.data.data.user;
-      this.$auth.setUser(user);
-      console.log('Succes!!!!');
-
-    } catch (error) {
-      this.loading = false;
-      console.log(error);
-    }
-  }
-}}
-</script>
-
-<style>
-.form{
-  max-width: 30%;
-  margin: 0 auto;
-  margin-top: 300px;
+  methods: {
+    async logInUser() {
+      try {
+        await this.$auth.loginWith('local', {
+          data: this.userData,
+        })
+        console.log('notification successful')
+      } catch (error) {
+        console.log('notification unsuccessful')
+      }
+    },
+  },
 }
-</style>
+</script>
