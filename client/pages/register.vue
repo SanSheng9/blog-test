@@ -4,15 +4,21 @@
   <div class="tab-pane fade" id="pills-register" role="tabpanel" aria-labelledby="tab-register">
     <form>
 
+      <!-- Name input -->
+      <div class="form-outline mb-4">
+        <input v-model='name' type="username" id="registerName" class="form-control" />
+        <label class="form-label" for="registerName">Name</label>
+      </div>
+
       <!-- Email input -->
       <div class="form-outline mb-4">
-        <input v-model='register.email' type="email" id="registerEmail" class="form-control" />
+        <input v-model='email' type="email" id="registerEmail" class="form-control" />
         <label class="form-label" for="registerEmail">Email</label>
       </div>
 
       <!-- Password input -->
       <div class="form-outline mb-4">
-        <input v-model="register.password" type="password" id="registerPassword" class="form-control" />
+        <input v-model="password" type="password" id="registerPassword" class="form-control" />
         <label class="form-label" for="registerPassword">Password</label>
       </div>
 
@@ -34,28 +40,28 @@
 <script>
 export default {
   layout: 'form',
-  data: () => ({
-    register: {
-      password: '',
+   name: "register",
+  data() {
+    return {
+      name: '',
       email: '',
+      password: ''
     }
-  }),
+  },
   methods: {
     async registerUser() {
-      let data = this.register
-      await this.$axios
-        .$post('accounts/users/', data)
-        .then((response) => {
-          console.log('Successful')
+      await fetch('http://localhost:8000/api/register', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+          name: this.name,
+          email: this.email,
+          password: this.password
         })
-        .catch((error) => {
-          console.log('errors:', error.response)
-        })
-      this.$auth.loginWith('local', {
-        data,
-      })
-    },
-  },
+      });
+      await this.$router.push('/login');
+    }
+  }
 }
 </script>
 

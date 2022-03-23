@@ -42,7 +42,7 @@ export default {
   ],
 
   axios: {
-    baseURL: "http://localhost:8000/"
+    baseURL: "http://127.0.0.1:8000/"
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
@@ -51,27 +51,27 @@ export default {
   auth: {
     strategies: {
       local: {
-        endpoints: {
-          login: {
-            url: 'token/login/',
-            method: 'post',
-            propertyName: 'auth_token',
-          },
-          logout: { url: 'token/logout/', method: 'post' },
-          user: {
-            url: 'accounts/data/',
-            method: 'get',
-            propertyName: false,
-          },
-        },
-        tokenType: 'Token',
-        tokenName: 'Authorization',
-      },
-      redirect: {
-        login: '/login',
-        home: '/',
-      },
-    },
+          endpoints: {
+              login: { url: 'login', method: 'post', propertyName: 'token' },
+              logout: { url: 'logout', method: 'post' },
+              user: false
+          }
+      }
   },
+  redirect: {
+      login: '/login',
+      logout: '/',
+      callback: '/login',
+      home: '/'
+  },
+  cookie: {
+    name: 'jwt',
+  },
+  localStorage: false,
+  token: {
+      prefix: 'jwt'
+  },
+    }
+  }
 
-}
+

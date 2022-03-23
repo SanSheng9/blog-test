@@ -6,13 +6,13 @@
 
       <!-- Email input -->
       <div class="form-outline mb-4">
-        <input v-model="userData.email" type="email" id="loginName" class="form-control" />
-        <label class="form-label" for="loginName">Email or username</label>
+        <input v-model="email" type="email" id="loginName" class="form-control" />
+        <label class="form-label" for="loginName">Email</label>
       </div>
 
       <!-- Password input -->
       <div class="form-outline mb-4">
-        <input v-model="userData.password" type="password" id="loginPassword" class="form-control" />
+        <input v-model="password" type="password" id="loginPassword" class="form-control" />
         <label class="form-label" for="loginPassword">Password</label>
       </div>
 
@@ -41,20 +41,26 @@
 <script>
 export default {
     layout: 'form',
-  data: () => ({
-    userData: { email: '', password: '', showPassword: false },
-  }),
+  name: "login",
+  data() {
+    return {
+      email: '',
+      password: ''
+    }
+  },
   methods: {
     async logInUser() {
-      try {
-        await this.$auth.loginWith('local', {
-          data: this.userData,
+      await fetch('http://localhost:8000/api/login', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        credentials: 'include',
+        body: JSON.stringify({
+          email: this.email,
+          password: this.password
         })
-        console.log('notification successful')
-      } catch (error) {
-        console.log('notification unsuccessful')
-      }
-    },
-  },
+      });
+      await this.$router.push('/user');
+    }
+  }
 }
 </script>

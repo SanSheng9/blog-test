@@ -10,12 +10,12 @@
     <nuxt-link v-if="$auth.loggedIn" active-class="active" :to="`/add/`" class="nav-link">New post</nuxt-link>
     </ul>
 
-    <span class="navbar-text" v-if="$auth.loggedIn">
-    {{ $auth.user.email }}
-         / <a class="logout" @click="logOut()">Log out</a>
+    <span class="navbar-text" v-if="auth">
+      <nuxt-link :to="`/user/`">{{content.email}}</nuxt-link>
+         / <a class="logout" @click="$nuxt.$emit('logout')">Log out</a>
     </span>
 
-    <span class="navbar-text" v-if="!$auth.loggedIn && watch">
+    <span class="navbar-text" v-if="!auth && watch">
           <ul class="navbar-nav mr-auto">
       <nuxt-link active-class="active" :to="`/login/`" class="nav-link">Login</nuxt-link>
       <nuxt-link active-class="active" :to="`/register/`" class="nav-link">Register</nuxt-link>
@@ -29,10 +29,9 @@
 <script>
 export default {
   name: 'Navbar',
-  props: ['watch'],
+  props: ['watch', 'auth', 'content'],
   methods: {
     logOut(){
-    this.$auth.logout()
     this.$router.push('/login/')
     }
   }
