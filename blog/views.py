@@ -12,6 +12,9 @@ import jwt, datetime
 class PostViewSet(ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
+    def post(self, request):
+        email = request.data['author']
+        request.data['author'] = User.objects.filter(email=email).first()
 
 
 class RegisterView(APIView):
@@ -36,7 +39,7 @@ class LoginView(APIView):
             raise AuthenticationFailed('Incorrect password!')
 
         payload = {
-            'id': user.id,
+            'email': user.email,
             'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=60),
             'iat': datetime.datetime.utcnow()
         }
@@ -65,7 +68,7 @@ class UserView(APIView):
         except jwt.ExpiredSignatureError:
             raise AuthenticationFailed('Unauthenticated! DECODE PROBLEM', 'payload: ', payload, 'jwt: ', jwt)
 
-        user = User.objects.filter(id=payload['id']).first()
+        user = User.objects.filter(email=payload['email']).first()
         serializer = UserSerializer(user)
         return Response(serializer.data)
 

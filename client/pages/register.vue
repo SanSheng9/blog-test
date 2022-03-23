@@ -1,4 +1,5 @@
 <template>
+<div class="wrapper">
 <!-- Pills content -->
 <div class="tab-content">
   <div class="tab-pane fade" id="pills-register" role="tabpanel" aria-labelledby="tab-register">
@@ -34,12 +35,12 @@
     </form>
   </div>
 </div>
+</div>
 <!-- Pills content -->
 </template>
 
 <script>
 export default {
-  layout: 'form',
    name: "register",
   data() {
     return {
@@ -66,6 +67,11 @@ export default {
 </script>
 
 <style>
+.wrapper{
+  margin: 0 auto;
+  margin-top: 150px;
+  max-width: 30%;
+}
 .tab-content > .tab-pane {
     display: block;
 }

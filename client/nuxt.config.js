@@ -52,8 +52,8 @@ export default {
     strategies: {
       local: {
           endpoints: {
-              login: { url: 'login', method: 'post', propertyName: 'token' },
-              logout: { url: 'logout', method: 'post' },
+              login: false,
+              logout: { url: 'api/logout', method: 'post' },
               user: false
           }
       }
@@ -63,13 +63,6 @@ export default {
       logout: '/',
       callback: '/login',
       home: '/'
-  },
-  cookie: {
-    name: 'jwt',
-  },
-  localStorage: false,
-  token: {
-      prefix: 'jwt'
   },
     }
   }

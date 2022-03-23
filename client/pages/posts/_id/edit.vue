@@ -37,7 +37,7 @@ export default {
     },
   async asyncData({ $axios, params }) {
     try {
-      let post = await $axios.$get(`/posts/${params.id}`);
+      let post = await $axios.$get(`/api/posts/${params.id}`);
       return { post };
     } catch (e) {
       return { post: [] };
@@ -59,7 +59,7 @@ export default {
       if (!files.length) {
         return;
       }
-      this.post.picture = files[0]
+      this.post.photo = files[0]
       this.createImage(files[0]);
     },
     createImage(file) {
@@ -72,9 +72,9 @@ export default {
     },
     async submitPost() {
       let editedPost = this.post
-      if (editedPost.photo.indexOf("http://") != -1){
-        delete editedPost["photo"]
-      }
+//      if (editedPost.photo.indexOf("http://") != -1){
+//        delete editedPost["photo"]
+//      }
       const config = {
         headers: { "content-type": "multipart/form-data" }
       };

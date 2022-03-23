@@ -52,7 +52,9 @@ export default {
       post: {
         title: "",
         photo: "",
-        description: ""
+        description: "",
+        author: '',
+        name: ''
       },
       preview: ""
     }),
@@ -78,6 +80,8 @@ export default {
       const config = {
         headers: { "content-type": "multipart/form-data" }
       };
+      this.post.author = this.$auth.user.email
+      this.post.name = this.$auth.user.name
       let formData = new FormData();
       for (let data in this.post) {
         formData.append(data, this.post[data]);

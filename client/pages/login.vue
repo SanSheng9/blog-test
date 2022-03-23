@@ -1,4 +1,5 @@
 <template>
+<div class="wrapper">
 <!-- Pills content -->
 <div class="tab-content">
   <div class="tab-pane fade show active" id="pills-login" role="tabpanel" aria-labelledby="tab-login">
@@ -36,11 +37,12 @@
   </div>
 </div>
 <!-- Pills content -->
+
+</div>
 </template>
 
 <script>
 export default {
-    layout: 'form',
   name: "login",
   data() {
     return {
@@ -50,6 +52,7 @@ export default {
   },
   methods: {
     async logInUser() {
+      try {
       await fetch('http://localhost:8000/api/login', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
@@ -59,7 +62,17 @@ export default {
           password: this.password
         })
       });
-      await this.$router.push('/user');
+      const response = await fetch('http://localhost:8000/api/user', {
+        method: 'GET',
+        headers: {'Content-Type': 'application/json'},
+        credentials: 'include',
+      })
+      const content = await response.json();
+      this.$auth.setUser(content);
+      await this.$router.push('/');
+      } catch(e){
+      console.log("Логин не удался!", e);
+      }
     }
   }
 }

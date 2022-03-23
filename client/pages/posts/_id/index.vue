@@ -1,13 +1,15 @@
 <template>
 <div class="container">
   <div class="buttons">
-    <nuxt-link :to="`/posts/${post.id}/edit`" class="btn btn-light">Редактировать пост</nuxt-link>
-    <a @click="deletePost(post.id)" class="btn btn-light">Удалить пост</a>
+    <nuxt-link v-if="post.author === $auth.user.email" :to="`/posts/${post.id}/edit`" class="btn btn-light">Редактировать пост</nuxt-link>
+    <a v-if="post.author === $auth.user.email" @click="deletePost(post.id)" class="btn btn-light">Удалить пост</a>
   </div>
       <b-card-group deck>
       <b-card :img-src="post.photo" img-alt="Card image" img-left class="mb-3">
         <b-card-text>
           {{post.description}}
+          <br>
+          <p class="author">Writted by {{post.name}}</p>
         </b-card-text>
       </b-card>
       </b-card-group>
@@ -35,7 +37,9 @@ export default {
       post: {
         title: "",
         photo: "",
-        description: ""
+        description: "",
+        author: "",
+        name: ""
       }
     };
   },
@@ -63,5 +67,8 @@ export default {
   display: flex;
   margin-bottom: 30px;
   justify-content: space-between;
+}
+.author{
+  font-style: italic;
 }
 </style>
