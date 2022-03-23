@@ -19,7 +19,12 @@ from django.conf.urls.static import static
 from blog.views import PostViewSet
 from rest_framework.routers import DefaultRouter
 
+router = DefaultRouter()
+router.register(r'api/posts', PostViewSet)
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("api/", include('blog.urls')),
 ]
+
+urlpatterns += router.urls
