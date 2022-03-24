@@ -16,6 +16,7 @@
 
 <script>
 import PostCard from "~/components/PostCard.vue";
+import { mapActions, mapGetters } from "vuex";
 export default {
   head() {
     return {
@@ -25,22 +26,13 @@ export default {
   components: {
     PostCard
   },
-  async asyncData({ $axios, params }) {
-    try {
-    let response = await $axios.get("/api/posts")
-    let posts = response.data
-    return { posts };
-    } catch (e) {
-      return { posts: [] };
-    }
-  },
-  data() {
-    return {
-      posts: []
-      };
-  },
   methods: {
-
+  },
+    computed: {
+    ...mapGetters(['getPost'])
+  },
+  mounted: {
+    ...mapActions(['axiosPost'])
   }
 };
 </script>

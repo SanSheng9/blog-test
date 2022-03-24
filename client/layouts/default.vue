@@ -36,18 +36,8 @@ export default {
       content: {}
     }
   },
-  async fetch(){
-        try {
-            const response = await fetch('http://localhost:8000/api/user', {
-        method: 'GET',
-        headers: {'Content-Type': 'application/json'},
-        credentials: 'include',
-      })
-      const content = await response.json();
-      this.$auth.setUser(content);
-      } catch(e) {
-        console.log('ИЗ БЕД');
-      }
+  fetch(){
+    this.$store.dispatch("fetchUsers")
   },
   mounted() {
     this.$nuxt.$on('logout', () => {
@@ -63,6 +53,11 @@ export default {
         credentials: 'include',
       });
       this.$router.push('/login');
+    }
+  },
+  computed: {
+    user() {
+      return this.$store.getters['setUser']
     }
   }
 }
