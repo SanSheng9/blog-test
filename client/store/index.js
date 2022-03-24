@@ -11,6 +11,9 @@ export const mutations = {
   setPost(state, payload) {
     state.posts = payload;
   },
+  setLoggedIn(state, payload) {
+    state.loggedIn = payload;
+  },
 };
 
 export const actions = {
@@ -23,7 +26,9 @@ export const actions = {
         credentials: "include",
       });
       const content = await response.json();
+
       commit("setUser", content);
+      commit("setLoggedIn", true);
     } catch (e) {
       console.log("Auth is bad.., error: ", e);
     }
@@ -38,4 +43,5 @@ export const actions = {
 export const getters = {
   getUser: (state) => state.users,
   getPosts: (state) => state.posts,
+  getLoggedIn: (state) => state.loggedIn,
 };

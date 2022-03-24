@@ -16,7 +16,6 @@
 
 <script>
 import PostCard from "~/components/PostCard.vue";
-import { mapActions, mapGetters } from "vuex";
 export default {
   head() {
     return {
@@ -26,13 +25,17 @@ export default {
   components: {
     PostCard
   },
+  asyncData() {
+    this.$store.dispatch('asyncPost')
+  },
+
   methods: {
+
   },
     computed: {
-    ...mapGetters(['getPost'])
-  },
-  mounted: {
-    ...mapActions(['axiosPost'])
+    GetPosts() {
+      return this.$store.getters['GetPosts']
+    }
   }
 };
 </script>

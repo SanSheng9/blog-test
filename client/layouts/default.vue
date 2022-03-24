@@ -8,15 +8,15 @@
   <div class="collapse navbar-collapse" id="navbarText">
     <ul class="navbar-nav mr-auto">
     <nuxt-link exact active-class="active" :to="`/`" class="nav-link">Home</nuxt-link>
-    <nuxt-link v-if="$auth.loggedIn" active-class="active" :to="`/add/`" class="nav-link">New post</nuxt-link>
+    <nuxt-link v-if="$store.getters.loggedIn" active-class="active" :to="`/add/`" class="nav-link">New post</nuxt-link>
     </ul>
 
-    <span v-if="$auth.loggedIn" class="navbar-text" >
-      <nuxt-link :to="`/user/`">{{$auth.user.email}}</nuxt-link>
+    <span v-if="$store.getters.loggedIn" class="navbar-text" >
+      <nuxt-link :to="`/user/`">{{$store.getters.loggedIn}}</nuxt-link>
          / <a class="logout" @click="logout()">Log out</a>
     </span>
 
-    <span class="navbar-text" v-if="!$auth.loggedIn">
+    <span class="navbar-text" v-if="!$store.getters.loggedIn">
           <ul class="navbar-nav mr-auto">
       <nuxt-link active-class="active" :to="`/login/`" class="nav-link">Login</nuxt-link>
       <nuxt-link active-class="active" :to="`/register/`" class="nav-link">Register</nuxt-link>
@@ -29,6 +29,7 @@
 </template>
 
 <script>
+
 export default {
   name: 'layout',
   data() {
@@ -56,8 +57,11 @@ export default {
     }
   },
   computed: {
-    user() {
-      return this.$store.getters['setUser']
+    getUser() {
+      return this.$store.getters['getUser']
+    },
+        getLoggedIn() {
+      return this.$store.getters['getLoggedIn']
     }
   }
 }
