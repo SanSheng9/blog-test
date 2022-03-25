@@ -1,53 +1,49 @@
 <template>
-<div>
-  <div class="posts-list">
-  <post-card
-  class="post-card"
-  v-for="post in posts" :key="post.id"
-  :title='post.title'
-  :description='post.description'
-  :image='post.photo'
-  :id='post.id'
-  >
-</post-card>
+  <div>
+    <div class="posts-list">
+      <post-card
+        class="post-card"
+        v-for="post in posts"
+        :key="post.id"
+        :title="post.title"
+        :description="post.description"
+        :image="post.photo"
+        :id="post.id"
+      >
+      </post-card>
+    </div>
   </div>
-</div>
 </template>
 
 <script>
 import PostCard from "~/components/PostCard.vue";
 export default {
+  components: {
+    PostCard,
+  },
   head() {
     return {
-      title: 'Test-blog'
+      title: "Test-blog",
     };
   },
-  components: {
-    PostCard
+  async asyncData({ $axios }) {
+    let response = await $axios.get("/api/posts");
+    return { posts: response.data };
   },
-  asyncData() {
-    this.$store.dispatch('asyncPost')
-  },
-
-  methods: {
-
-  },
-    computed: {
-    GetPosts() {
-      return this.$store.getters['GetPosts']
-    }
-  }
+  data: () => ({
+    posts: {},
+  }),
+  methods: {},
 };
 </script>
 
 <style scoped>
-
-.posts-list{
+.posts-list {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
 }
-.post-card{
+.post-card {
   margin: 15px;
 }
 </style>
