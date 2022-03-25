@@ -20,7 +20,7 @@
         <b-card-text>
           {{ post.description }}
           <br />
-          <p :style="{ marginTop: 10 + 'px' }" class="author">
+          <p :style="{ marginTop: 10 + 'px', color: 'gray' }" class="author">
             Writted by <b>{{ post.name }}</b>
           </p>
         </b-card-text>
@@ -173,9 +173,6 @@ export default {
   display: flex;
   margin-bottom: 30px;
   justify-content: space-between;
-}
-.author {
-  font-style: italic;
 }
 #delete {
   cursor: pointer;

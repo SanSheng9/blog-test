@@ -7,6 +7,8 @@ class User(AbstractUser):
     email = models.CharField(primary_key=True, max_length=255, unique=True)
     name = models.CharField(max_length=255)
     password = models.CharField(max_length=255)
+    avatar = models.ImageField(upload_to='photos/%Y/%m/%d', blank=False, default='avatar.png', verbose_name='Аватар')
+    about_me = models.CharField(max_length=255, default="I'm new user!", blank=False)
     username = None
 
     USERNAME_FIELD = 'email'

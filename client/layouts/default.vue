@@ -1,7 +1,7 @@
 <template>
   <div>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <a class="navbar-brand" href="#">BLOG</a>
+      <nuxt-link :to="`/`" class="navbar-brand">BLOG</nuxt-link>
       <button
         class="navbar-toggler"
         type="button"
@@ -15,9 +15,6 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarText">
         <ul class="navbar-nav mr-auto">
-          <nuxt-link exact active-class="active" :to="`/`" class="nav-link"
-            >Home</nuxt-link
-          >
           <nuxt-link
             v-if="loggedIn"
             active-class="active"

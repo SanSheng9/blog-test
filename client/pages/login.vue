@@ -63,6 +63,11 @@
 <script>
 export default {
   name: "login",
+  head() {
+    return {
+      title: "Login - Blog",
+    };
+  },
   data() {
     return {
       email: "",
