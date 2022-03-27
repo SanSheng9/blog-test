@@ -89,7 +89,7 @@
                       id="user"
                       @click="getProfileUser(comment.author)"
                     >
-                      {{ comment.author }}
+                      <b>{{ comment.author }}</b>
                     </p>
                   </div>
                   <div class="d-flex flex-row align-items-center">
