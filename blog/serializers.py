@@ -3,14 +3,26 @@ from rest_framework.serializers import ModelSerializer
 from blog.models import Post, User, Comment
 
 class PostSerializer(ModelSerializer):
+    def to_representation(self, instance):
+        representation = super(PostSerializer, self).to_representation(instance)
+        representation['created_at'] = instance.created_at.strftime('%d.%m.%Y')
+        return representation
+
     class Meta:
         model = Post
         fields = '__all__'
 
 class CommentSerializer(ModelSerializer):
+    def to_representation(self, instance):
+        representation = super(CommentSerializer, self).to_representation(instance)
+        representation['created_at'] = instance.created_at.strftime('%d.%m.%Y')
+        return representation
+
     class Meta:
         model = Comment
         fields = '__all__'
+
+
 
 
 class UserSerializer(ModelSerializer):

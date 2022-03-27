@@ -25,6 +25,7 @@ class CommentViewSet(ModelViewSet):
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['post']
 
+
 class RegisterView(APIView):
     def post(self, request):
         serializer = UserSerializer(data=request.data)

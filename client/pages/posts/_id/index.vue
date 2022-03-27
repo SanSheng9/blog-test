@@ -63,28 +63,35 @@
 
                 <div class="d-flex justify-content-between">
                   <div class="d-flex flex-row align-items-center">
-                    <img
+                    <!--        <img
                       :src="comment.avatar"
                       alt="avatar"
                       width="25"
                       height="25"
-                    />
-                    <p class="small mb-0 ms-2">{{ comment.author }}</p>
+                    /> -->
+                    <p
+                      class="small mb-0 ms-2"
+                      id="user"
+                      @click="getProfileUser(comment.author)"
+                    >
+                      {{ comment.author }}
+                    </p>
                   </div>
                   <div class="d-flex flex-row align-items-center">
                     <p class="small mb-0 ms-2">{{ comment.created_at }}</p>
                   </div>
-                  <div
-                    v-if="comment.author === user.login"
-                    class="d-flex flex-row align-items-center"
+                </div>
+                <div
+                  v-if="comment.author === user.login"
+                  class="d-flex flex-row align-items-center"
+                >
+                  <p
+                    id="delete"
+                    @click="deleteComment(comment.id)"
+                    class="small text-muted mb-0"
                   >
-                    <a
-                      id="delete"
-                      @click="deleteComment(comment.id)"
-                      class="small text-muted mb-0"
-                      >Delete?</a
-                    >
-                  </div>
+                    Delete
+                  </p>
                 </div>
               </div>
             </div>
@@ -132,11 +139,20 @@ export default {
     async getComments(id) {
       try {
         this.comments = await this.$axios.$get(`/api/comments/?post=${id}`);
+        /*         const profile = await this.$axios.$get(`/api/profile`);
+        console.log(profile);
         this.comments.forEach((comment) => {
-          if (comment.author == this.user.login) {
-            comment.avatar = this.user.avatar;
-          }
-        });
+          const profiles = profile.filter((p) => p.author == comment.author);
+          console.log(profiles); 
+           for (let p of profiles) {
+            if ()
+          } 
+        }); */
+        /* 
+         for (let p of profile) {
+          let n = 0;
+          if (authors[n].author === profile.author)
+        }  */
       } catch (e) {
         console.log(e);
       }
@@ -193,6 +209,7 @@ export default {
 }
 #delete {
   cursor: pointer;
+  margin-top: 20px;
 }
 .post-end {
   margin-top: 30px;
