@@ -14,24 +14,34 @@
         >Удалить пост</a
       >
     </div>
-    <b-card-group deck>
-      <b-card :img-src="post.photo" img-alt="Card image" img-left class="mb-3">
-        <h1 class="mb-3 display-4 text-uppercase">{{ post.title }}</h1>
-        <b-card-text>
+
+    <div class="col-md-10 blogShort">
+      <div class="col-12 text-left my-3">
+        <h2 class="mb-3 display-4 text-uppercase">{{ post.title }}</h2>
+      </div>
+      <div class="img">
+        <img
+          :src="post.photo"
+          alt="post img"
+          class="pull-left img-responsive postImg img-thumbnail margin10"
+        />
+      </div>
+      <article>
+        <p>
           {{ post.description }}
-          <br />
-          <div class="post-end">
-            <div class="author">
-              Writted by
-              <b id="user" @click="getProfileUser(post.author)">{{
-                post.author
-              }}</b>
-            </div>
-            <div class="created-at">Created at {{ post.created_at }}</div>
-          </div>
-        </b-card-text>
-      </b-card>
-    </b-card-group>
+        </p>
+      </article>
+      <div class="post-end">
+        <div class="author">
+          Writted by
+          <b id="user" @click="getProfileUser(post.author)">{{
+            post.author
+          }}</b>
+        </div>
+        <div class="created-at">Created at {{ post.created_at }}</div>
+      </div>
+    </div>
+
     <!-- BLOCK COMMENTS -->
     <div
       :style="{ marginBottom: 20 + 'px' }"
@@ -57,7 +67,12 @@
               >
             </div>
 
-            <div v-for="comment in comments" :key="comment.id" class="card">
+            <div
+              id="comment"
+              v-for="comment in comments"
+              :key="comment.id"
+              class="card"
+            >
               <div class="card-body">
                 <p>{{ comment.body }}</p>
 
@@ -158,11 +173,11 @@ export default {
       }
     },
     async deleteComment(id) {
+      let post = this.post.id;
       try {
         await this.$axios.$delete(`/api/comments/${id}/`); // delete recipe
-        let newComments = await this.$axios.$get(`/api/comments/?post=${id}`); // get new list of recipes
-        this.comments = newComments; // update list of recipes
-        this.$router.push(`/posts/${id}`);
+        this.comments = await this.$axios.$get(`/api/comments/?post=${post}`); // get new list of recipes
+        await this.$router.push(`/posts/${post}`);
       } catch (e) {
         console.log(e);
       }
@@ -219,5 +234,15 @@ export default {
 }
 #user {
   cursor: pointer;
+}
+#id {
+  max-width: 100%;
+}
+.img {
+  max-width: 50vw;
+  margin-bottom: 20px;
+}
+.card {
+  margin-top: 30px;
 }
 </style>

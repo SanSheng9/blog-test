@@ -78,7 +78,7 @@ export default {
     async logInUser() {
       // LOGIN
       try {
-        await fetch("http://localhost:8000/api/login", {
+        const response = await fetch("http://localhost:8000/api/login", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           credentials: "include",
@@ -87,7 +87,9 @@ export default {
             password: this.password,
           }),
         });
-        await this.$router.push("/");
+        if (response.status === 200 || response.status === 201) {
+          await this.$router.push("/");
+        }
       } catch (e) {
         console.log("Логин не удался!", e);
       }

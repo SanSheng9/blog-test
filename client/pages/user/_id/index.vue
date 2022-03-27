@@ -10,7 +10,7 @@
                 <img
                   id="avatar"
                   :src="profile[0].avatar"
-                  class="img-lg rounded-circle mb-4"
+                  class="img-lg mb-4"
                   alt="profile image"
                 />
                 <h4>{{ profile[0].login }}</h4>

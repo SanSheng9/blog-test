@@ -19,7 +19,7 @@ class User(AbstractUser):
 class Post(models.Model):
     title = models.CharField(max_length=225, verbose_name='Название поста')
     description = models.TextField(blank=True, verbose_name='Описание')
-    photo = models.ImageField(upload_to='photos/%Y/%m/%d', blank=True, verbose_name='Фото')
+    photo = models.ImageField(upload_to='photos/%Y/%m/%d', blank=False, default='default.png', verbose_name='Фото')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Опубликовано')
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='posts', verbose_name='Логин автора')
 

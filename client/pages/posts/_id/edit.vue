@@ -97,6 +97,7 @@ export default {
       //      if (editedPost.photo.indexOf("http://") != -1){
       //        delete editedPost["photo"]
       //      }
+
       const config = {
         headers: { "content-type": "multipart/form-data" },
       };

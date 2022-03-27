@@ -1,2 +1,7 @@
 .blogenv
 .media
+.vscode
+.idea
+media/photos
+blogenv
+blog/migrations

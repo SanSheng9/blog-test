@@ -33,7 +33,7 @@
         <div class="col-md-4">
           <form @submit.prevent="submitPost">
             <div class="form-group">
-              <label for>Recipe Name</label>
+              <label for>Title</label>
               <input type="text" class="form-control" v-model="post.title" />
             </div>
             <div class="form-group">
@@ -41,7 +41,7 @@
               <input type="file" name="file" @change="onFileChange" />
             </div>
             <div class="form-group mb-3">
-              <label for>Description</label>
+              <label for>Text</label>
               <textarea
                 v-model="post.description"
                 class="form-control"
@@ -94,19 +94,22 @@ export default {
         headers: { "content-type": "multipart/form-data" },
       };
       this.post.author = this.user.login;
-      this.post.name = this.user.name;
 
       let formData = new FormData();
       for (let data in this.post) {
         formData.append(data, this.post[data]);
       }
-      try {
-        let response = await this.$axios.$post("api/posts/", formData, config);
-        this.$router.push("/");
-        console.log("formData: ", formData);
-        console.log("response: ", response);
-      } catch (e) {
-        console.log(e);
+      if (this.post.photo !== null || this.post.photo != "") {
+        try {
+          let response = await this.$axios.$post(
+            "api/posts/",
+            formData,
+            config
+          );
+          await this.$router.push("/");
+        } catch (e) {
+          console.log(e);
+        }
       }
     },
   },

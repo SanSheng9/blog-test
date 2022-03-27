@@ -38,6 +38,7 @@
               type="password"
               id="registerPassword"
               class="form-control"
+              pattern="[0-9a-fA-F]{4,8}"
             />
             <label class="form-label" for="registerPassword">Password</label>
           </div>
@@ -48,6 +49,8 @@
               type="password"
               id="registerRepeatPassword"
               class="form-control"
+              pattern="[0-9a-fA-F]{4,8}"
+              required
             />
             <label class="form-label" for="registerRepeatPassword"
               >Repeat password</label
@@ -86,16 +89,22 @@ export default {
   },
   methods: {
     async registerUser() {
-      await fetch("http://localhost:8000/api/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          login: this.login,
-          email: this.email,
-          password: this.password,
-        }),
-      });
-      await this.$router.push("/login");
+      try {
+        const response = await fetch("http://localhost:8000/api/register", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            login: this.login,
+            email: this.email,
+            password: this.password,
+          }),
+        });
+        if (response.status === 200 || response.status === 201) {
+          await this.$router.push("/login");
+        }
+      } catch (e) {
+        console.log(e);
+      }
     },
   },
 };

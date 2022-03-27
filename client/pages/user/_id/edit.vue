@@ -15,15 +15,10 @@
                   v-if="!preview"
                   id="avatar"
                   :src="profile[0].avatar"
-                  class="img-lg rounded-circle mb-4"
+                  class="img-lg mb-4"
                   alt="profile image"
                 />
-                <img
-                  v-else
-                  id="avatar"
-                  class="img-lg rounded-circle mb-4"
-                  :src="preview"
-                />
+                <img v-else id="avatar" class="img-lg mb-4" :src="preview" />
                 <div class="form-group">
                   <input type="file" @change="onFileChange" />
                 </div>
@@ -56,7 +51,7 @@
 export default {
   layout: "default",
   data: () => ({
-    preview: "",
+    preview: null,
     formData: {},
   }),
   async asyncData({ params, $axios }) {
@@ -82,21 +77,33 @@ export default {
     },
     async submitProfile() {
       let editedProfile = this.profile[0];
-      //      if (editedPost.photo.indexOf("http://") != -1){
-      //        delete editedPost["photo"]
-      //      }
+      console.log(editedProfile);
+      console.log(this.profile[0]);
+
+      /* if (
+        editedProfile.avatar.indexOf("http://") != -1 ||
+        editedProfile.avatar == "" ||
+        editedProfile.avatar == null
+      ) {
+        delete editedProfile["avatar"];
+      } */
       let formData = new FormData();
       formData.append("login", editedProfile.login);
       formData.append("about_me", editedProfile.about_me);
-      formData.append("avatar", editedProfile.avatar);
+      if (this.preview !== null) {
+        formData.append("avatar", editedProfile.avatar);
+      }
+
       console.log(formData);
       try {
-        await fetch("http://localhost:8000/api/user", {
+        const response = await fetch("http://localhost:8000/api/user", {
           method: "PATCH",
           credentials: "include",
           body: formData,
         });
-        this.$router.push(`/user/${this.profile[0].login}`);
+        if (response.status === 200 || response.status === 201) {
+          this.$router.push(`/user/${this.profile[0].login}`);
+        }
       } catch (e) {
         console.log(e);
       }
