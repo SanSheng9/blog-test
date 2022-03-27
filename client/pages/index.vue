@@ -44,6 +44,6 @@ export default {
   flex-wrap: wrap;
 }
 .post-card {
-  margin: 15px;
+  margin: 10px;
 }
 </style>

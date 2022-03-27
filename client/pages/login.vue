@@ -42,7 +42,7 @@
           <button
             @click.prevent="logInUser()"
             type="submit"
-            class="btn btn-primary btn-block mb-4"
+            class="btn btn-light btn-block mb-4"
           >
             Sign in
           </button>
@@ -65,7 +65,7 @@ export default {
   name: "login",
   head() {
     return {
-      title: "Login - Blog",
+      title: "Loginb - BLOG",
     };
   },
   data() {
@@ -98,7 +98,7 @@ export default {
           credentials: "include",
         });
         const content = await response.json();
-        if (content.name) {
+        if (content.login) {
           this.$store.commit("setUser", content);
           this.$store.commit("setLoggedIn", true);
         }

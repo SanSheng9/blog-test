@@ -1,6 +1,8 @@
-from rest_framework.viewsets import ModelViewSet
+from rest_framework import mixins
+from rest_framework.mixins import UpdateModelMixin
+from rest_framework.viewsets import ModelViewSet, GenericViewSet
 from blog.models import Post
-from blog.serializers import PostSerializer
+from blog.serializers import PostSerializer, ProfileSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.exceptions import AuthenticationFailed
@@ -76,6 +78,25 @@ class UserView(APIView):
 
         user = User.objects.filter(email=payload['email']).first()
         serializer = UserSerializer(user)
+
+        return Response(serializer.data)
+
+    def patch(self, request):
+        token = request.COOKIES.get('jwt')
+
+        if not token:
+            raise AuthenticationFailed('Unauthenticated! (NO TOKEN)')
+
+        try:
+            payload = jwt.decode(token, 'secret', algorithm='HS256')
+        except jwt.ExpiredSignatureError:
+            raise AuthenticationFailed('Unauthenticated! DECODE PROBLEM')
+
+        user = User.objects.filter(email=payload['email']).first()
+        user.about_me = request.data['about_me']
+        user.avatar = request.data['avatar']
+        user.save()
+        serializer = UserSerializer(user)
         return Response(serializer.data)
 
 
@@ -92,4 +113,10 @@ class LogoutView(APIView):
 #     "email": "vasya@yandex.ru",
 #     "password": "oraloral"
 # }
+
+class ProfileViewSet(mixins.ListModelMixin, GenericViewSet):
+    queryset = User.objects.all()
+    serializer_class = ProfileSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['login']
 

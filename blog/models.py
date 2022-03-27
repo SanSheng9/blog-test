@@ -4,14 +4,14 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 
 class User(AbstractUser):
-    email = models.CharField(primary_key=True, max_length=255, unique=True)
-    name = models.CharField(max_length=255)
+    email = models.CharField( max_length=255, unique=True)
+    login = models.CharField(primary_key=True, max_length=255, unique=True)
     password = models.CharField(max_length=255)
     avatar = models.ImageField(upload_to='photos/%Y/%m/%d', blank=False, default='avatar.png', verbose_name='Аватар')
     about_me = models.CharField(max_length=255, default="I'm new user!", blank=False)
     username = None
 
-    USERNAME_FIELD = 'email'
+    USERNAME_FIELD = 'login'
     REQUIRED_FIELDS = []
 
 # POST
@@ -21,8 +21,7 @@ class Post(models.Model):
     description = models.TextField(blank=True, verbose_name='Описание')
     photo = models.ImageField(upload_to='photos/%Y/%m/%d', blank=True, verbose_name='Фото')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Опубликовано')
-    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='posts', verbose_name='Емайл автора')
-    name = models.CharField(max_length=225, verbose_name='Никнейм автора')
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='posts', verbose_name='Логин автора')
 
     def __str__(self):
         return f'Id {self.id}: {self.title}'

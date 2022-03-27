@@ -12,12 +12,12 @@
           <!-- Name input -->
           <div class="form-outline mb-4">
             <input
-              v-model="name"
+              v-model="login"
               type="username"
               id="registerName"
               class="form-control"
             />
-            <label class="form-label" for="registerName">Name</label>
+            <label class="form-label" for="registerName">Login</label>
           </div>
 
           <!-- Email input -->
@@ -58,7 +58,7 @@
           <button
             @click.prevent="registerUser()"
             type="submit"
-            class="btn btn-primary btn-block mb-3"
+            class="btn btn-light btn-block mb-3"
           >
             Sign in
           </button>
@@ -74,12 +74,12 @@ export default {
   name: "register",
   head() {
     return {
-      title: "Register - Blog",
+      title: "Register - BLOG",
     };
   },
   data() {
     return {
-      name: "",
+      login: "",
       email: "",
       password: "",
     };
@@ -90,7 +90,7 @@ export default {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          name: this.name,
+          login: this.login,
           email: this.email,
           password: this.password,
         }),
@@ -112,16 +112,5 @@ export default {
 }
 .fade:not(.show) {
   opacity: 100%;
-}
-.btn-primary {
-  color: #212529;
-  background-color: #f8f9fa;
-  border-color: #f8f9fa;
-}
-.btn-primary:hover,
-.btn-primary:active {
-  color: #f8f9fa;
-  background-color: #212529;
-  border-color: #212529;
 }
 </style>

@@ -48,7 +48,7 @@
                 rows="8"
               ></textarea>
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-light">Submit</button>
           </form>
         </div>
       </div>
@@ -68,7 +68,6 @@ export default {
       photo: "",
       description: "",
       author: "",
-      name: "",
     },
     preview: "",
   }),
@@ -94,8 +93,9 @@ export default {
       const config = {
         headers: { "content-type": "multipart/form-data" },
       };
-      this.post.author = this.user.email;
+      this.post.author = this.user.login;
       this.post.name = this.user.name;
+
       let formData = new FormData();
       for (let data in this.post) {
         formData.append(data, this.post[data]);

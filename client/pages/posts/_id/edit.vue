@@ -44,7 +44,7 @@
               rows="8"
             ></textarea>
           </div>
-          <button type="submit" class="btn btn-success">Save</button>
+          <button type="submit" class="btn btn-light">Save</button>
         </form>
       </div>
     </div>

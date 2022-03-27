@@ -2,13 +2,13 @@
   <div class="container">
     <div class="buttons">
       <nuxt-link
-        v-if="post.author === user.email"
+        v-if="post.author === user.login"
         :to="`/posts/${post.id}/edit`"
         class="btn btn-light"
         >Редактировать пост</nuxt-link
       >
       <a
-        v-if="post.author === user.email"
+        v-if="post.author === user.login"
         @click="deletePost(post.id)"
         class="btn btn-light"
         >Удалить пост</a
@@ -20,9 +20,15 @@
         <b-card-text>
           {{ post.description }}
           <br />
-          <p :style="{ marginTop: 10 + 'px', color: 'gray' }" class="author">
-            Writted by <b>{{ post.name }}</b>
-          </p>
+          <div class="post-end">
+            <div class="author">
+              Writted by
+              <b id="user" @click="getProfileUser(post.author)">{{
+                post.author
+              }}</b>
+            </div>
+            <div class="created-at">Created at {{ post.created_at }}</div>
+          </div>
         </b-card-text>
       </b-card>
     </b-card-group>
@@ -32,7 +38,7 @@
       class="row d-flex justify-content-center"
     >
       <div v-if="loggedIn || comments.length >= 1" class="col-md-8 col-lg-6">
-        <div class="card shadow-0 border" style="background-color: #f0f2f5">
+        <div class="card shadow-0 border" style="background-color: #00808050">
           <div class="card-body p-4">
             <div v-if="loggedIn" class="form-outline mb-4">
               <input
@@ -58,15 +64,18 @@
                 <div class="d-flex justify-content-between">
                   <div class="d-flex flex-row align-items-center">
                     <img
-                      src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(32).webp"
+                      :src="comment.avatar"
                       alt="avatar"
                       width="25"
                       height="25"
                     />
                     <p class="small mb-0 ms-2">{{ comment.author }}</p>
                   </div>
+                  <div class="d-flex flex-row align-items-center">
+                    <p class="small mb-0 ms-2">{{ comment.created_at }}</p>
+                  </div>
                   <div
-                    v-if="comment.author === user.email"
+                    v-if="comment.author === user.login"
                     class="d-flex flex-row align-items-center"
                   >
                     <a
@@ -117,9 +126,17 @@ export default {
         console.log(e);
       }
     },
+    async getProfileUser(login) {
+      await this.$router.push(`/user/${login}`);
+    },
     async getComments(id) {
       try {
         this.comments = await this.$axios.$get(`/api/comments/?post=${id}`);
+        this.comments.forEach((comment) => {
+          if (comment.author == this.user.login) {
+            comment.avatar = this.user.avatar;
+          }
+        });
       } catch (e) {
         console.log(e);
       }
@@ -138,7 +155,7 @@ export default {
       try {
         let formComment = {
           body: this.textComment,
-          author: this.user.email,
+          author: this.user.login,
           post: id,
         };
         await this.$axios.$post("api/comments/", formComment);
@@ -175,6 +192,15 @@ export default {
   justify-content: space-between;
 }
 #delete {
+  cursor: pointer;
+}
+.post-end {
+  margin-top: 30px;
+  color: gray;
+  display: flex;
+  justify-content: space-between;
+}
+#user {
   cursor: pointer;
 }
 </style>

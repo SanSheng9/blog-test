@@ -1,8 +1,9 @@
+from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer
 from blog.models import Post, User, Comment
 
 class PostSerializer(ModelSerializer):
-    class Meta: 
+    class Meta:
         model = Post
         fields = '__all__'
 
@@ -27,3 +28,8 @@ class UserSerializer(ModelSerializer):
             instance.set_password(password)
         instance.save()
         return instance
+
+class ProfileSerializer(ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['login', 'about_me', 'avatar', 'is_active']

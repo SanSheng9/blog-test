@@ -1,6 +1,6 @@
 <template>
   <div>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light" id="navbar">
       <nuxt-link :to="`/`" class="navbar-brand">BLOG</nuxt-link>
       <button
         class="navbar-toggler"
@@ -20,12 +20,12 @@
             active-class="active"
             :to="`/add/`"
             class="nav-link"
-            >New post</nuxt-link
+            >+ Add a post</nuxt-link
           >
         </ul>
 
         <span v-if="loggedIn" class="navbar-text">
-          <nuxt-link :to="`/user/`">{{ user.email }}</nuxt-link>
+          <nuxt-link :to="`/user/${user.login}`">{{ user.email }}</nuxt-link>
           / <a class="logout" @click="logout()">Log out</a>
         </span>
 
@@ -61,7 +61,7 @@ export default {
         credentials: "include",
       });
       const content = await response.json();
-      if (content.name) {
+      if (content.login) {
         this.localContent = content;
 
         this.localLoggedIn = true;
@@ -102,5 +102,22 @@ export default {
 }
 .logout:hover {
   cursor: pointer;
+}
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  border: 1px solid teal;
+  -webkit-text-fill-color: #008080;
+  -webkit-box-shadow: 0 0 0px 1000px rgba(0, 128, 128, 0.157) inset;
+  transition: background-color 5000s ease-in-out 0s;
+}
+#navbar {
+  background-color: #00808050 !important;
 }
 </style>

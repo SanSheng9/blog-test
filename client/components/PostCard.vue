@@ -6,7 +6,7 @@
         <div class="card-img-overlay">
           <h5 class="card-title">{{ title }}</h5>
           <nuxt-link :to="`/posts/${id}/`" class="btn btn-light"
-            >Открыть пост</nuxt-link
+            >Open post</nuxt-link
           >
         </div>
       </div>
@@ -26,5 +26,10 @@ export default {
   max-width: 400px;
   min-width: 400px;
   min-height: 300px;
+}
+.card-img-overlay {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 </style>
