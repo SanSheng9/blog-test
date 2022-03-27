@@ -2,6 +2,7 @@
 .media
 .vscode
 .idea
+db.sqlite3
 media/photos
 blogenv
 blog/migrations
