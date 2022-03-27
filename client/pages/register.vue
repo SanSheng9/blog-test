@@ -16,6 +16,7 @@
               type="username"
               id="registerName"
               class="form-control"
+              required
             />
             <label class="form-label" for="registerName">Login</label>
           </div>
@@ -27,6 +28,7 @@
               type="email"
               id="registerEmail"
               class="form-control"
+              required
             />
             <label class="form-label" for="registerEmail">Email</label>
           </div>
@@ -39,6 +41,7 @@
               id="registerPassword"
               class="form-control"
               pattern="[0-9a-fA-F]{4,8}"
+              required
             />
             <label class="form-label" for="registerPassword">Password</label>
           </div>
@@ -51,6 +54,7 @@
               class="form-control"
               pattern="[0-9a-fA-F]{4,8}"
               required
+              v-model="repeatPassword"
             />
             <label class="form-label" for="registerRepeatPassword"
               >Repeat password</label
@@ -85,25 +89,30 @@ export default {
       username: "",
       email: "",
       password: "",
+      repeatPassword: "",
     };
   },
   methods: {
     async registerUser() {
-      try {
-        const response = await fetch("http://localhost:8000/api/register", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            username: this.username,
-            email: this.email,
-            password: this.password,
-          }),
-        });
-        if (response.status === 200 || response.status === 201) {
-          await this.$router.push("/login");
+      if (this.password === this.repeatPassword) {
+        try {
+          const response = await fetch("http://localhost:8000/api/register", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              username: this.username,
+              email: this.email,
+              password: this.password,
+            }),
+          });
+          if (response.status === 200 || response.status === 201) {
+            await this.$router.push("/login");
+          }
+        } catch (e) {
+          console.log(e);
         }
-      } catch (e) {
-        console.log(e);
+      } else {
+        console.log("The passwords are different!");
       }
     },
   },
