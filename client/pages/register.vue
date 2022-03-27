@@ -107,12 +107,25 @@ export default {
           });
           if (response.status === 200 || response.status === 201) {
             await this.$router.push("/login");
+            this.$notify({
+              title: "Register successful!",
+            });
+          }
+          if (response.status === 400) {
+            this.$notify({
+              title:
+                "Error registration! Maybe, you must fill in all the registration fields!",
+              type: "warn",
+            });
           }
         } catch (e) {
           console.log(e);
         }
       } else {
-        console.log("The passwords are different!");
+        this.$notify({
+          title: "The passwords are different!",
+          type: "warn",
+        });
       }
     },
   },

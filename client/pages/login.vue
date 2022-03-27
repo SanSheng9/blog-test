@@ -89,6 +89,15 @@ export default {
         });
         if (response.status === 200 || response.status === 201) {
           await this.$router.push("/");
+          this.$notify({
+            title: "Login successful!",
+          });
+        }
+        if (response.status === 403) {
+          this.$notify({
+            title: "Incorrect password or user not found!",
+            type: "warn",
+          });
         }
       } catch (e) {
         console.log("Логин не удался!", e);
