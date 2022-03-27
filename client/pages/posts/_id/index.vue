@@ -2,13 +2,13 @@
   <div class="container">
     <div class="buttons">
       <nuxt-link
-        v-if="post.author === user.login"
+        v-if="post.author === user.username"
         :to="`/posts/${post.id}/edit`"
         class="btn btn-light"
         >Редактировать пост</nuxt-link
       >
       <a
-        v-if="post.author === user.login"
+        v-if="post.author === user.username"
         @click="deletePost(post.id)"
         class="btn btn-light"
         >Удалить пост</a
@@ -97,7 +97,7 @@
                   </div>
                 </div>
                 <div
-                  v-if="comment.author === user.login"
+                  v-if="comment.author === user.username"
                   class="d-flex flex-row align-items-center"
                 >
                   <p
@@ -148,8 +148,8 @@ export default {
         console.log(e);
       }
     },
-    async getProfileUser(login) {
-      await this.$router.push(`/user/${login}`);
+    async getProfileUser(username) {
+      await this.$router.push(`/user/${username}`);
     },
     async getComments(id) {
       try {
@@ -186,7 +186,7 @@ export default {
       try {
         let formComment = {
           body: this.textComment,
-          author: this.user.login,
+          author: this.user.username,
           post: id,
         };
         await this.$axios.$post("api/comments/", formComment);

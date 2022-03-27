@@ -7,7 +7,7 @@
             <div class="card">
               <!-- USER PROFILE CHANGE -->
               <div
-                v-if="user.login === profile[0].login"
+                v-if="user.username === profile[0].username"
                 class="card-body text-center"
               >
                 <!-- avatar -->
@@ -23,7 +23,7 @@
                   <input type="file" @change="onFileChange" />
                 </div>
                 <!-- login no changed -->
-                <h4>{{ profile[0].login }}</h4>
+                <h4>{{ profile[0].username }}</h4>
                 <!-- about -->
                 <div class="form-group mb-3">
                   <input
@@ -55,7 +55,7 @@ export default {
     formData: {},
   }),
   async asyncData({ params, $axios }) {
-    let profile = await $axios.$get(`/api/profile/?login=${params.id}`);
+    let profile = await $axios.$get(`/api/profile/?username=${params.id}`);
     return { profile };
   },
   methods: {
@@ -88,7 +88,7 @@ export default {
         delete editedProfile["avatar"];
       } */
       let formData = new FormData();
-      formData.append("login", editedProfile.login);
+      formData.append("username", editedProfile.username);
       formData.append("about_me", editedProfile.about_me);
       if (this.preview !== null) {
         formData.append("avatar", editedProfile.avatar);
@@ -102,7 +102,7 @@ export default {
           body: formData,
         });
         if (response.status === 200 || response.status === 201) {
-          this.$router.push(`/user/${this.profile[0].login}`);
+          this.$router.push(`/user/${this.profile[0].username}`);
         }
       } catch (e) {
         console.log(e);

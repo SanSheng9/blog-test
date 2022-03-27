@@ -25,7 +25,7 @@
         </ul>
 
         <span v-if="loggedIn" class="navbar-text">
-          <nuxt-link :to="`/user/${user.login}`">{{ user.email }}</nuxt-link>
+          <nuxt-link :to="`/user/${user.username}`">{{ user.email }}</nuxt-link>
           / <a class="logout" @click="logout()">Log out</a>
         </span>
 
@@ -61,7 +61,7 @@ export default {
         credentials: "include",
       });
       const content = await response.json();
-      if (content.login) {
+      if (content.username) {
         this.localContent = content;
 
         this.localLoggedIn = true;

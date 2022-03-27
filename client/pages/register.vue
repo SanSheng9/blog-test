@@ -12,7 +12,7 @@
           <!-- Name input -->
           <div class="form-outline mb-4">
             <input
-              v-model="login"
+              v-model="username"
               type="username"
               id="registerName"
               class="form-control"
@@ -82,7 +82,7 @@ export default {
   },
   data() {
     return {
-      login: "",
+      username: "",
       email: "",
       password: "",
     };
@@ -94,7 +94,7 @@ export default {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            login: this.login,
+            username: this.username,
             email: this.email,
             password: this.password,
           }),

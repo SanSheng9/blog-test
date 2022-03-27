@@ -5,14 +5,11 @@ from django.contrib.auth.models import AbstractUser
 
 class User(AbstractUser):
     email = models.CharField( max_length=255, unique=True)
-    login = models.CharField(primary_key=True, max_length=255, unique=True)
+    username = models.CharField(primary_key=True, max_length=255, unique=True)
     password = models.CharField(max_length=255)
     avatar = models.ImageField(upload_to='photos/%Y/%m/%d', blank=False, default='avatar.png', verbose_name='Аватар')
     about_me = models.CharField(max_length=255, default="I'm new user!", blank=False)
-    username = None
 
-    USERNAME_FIELD = 'login'
-    REQUIRED_FIELDS = []
 
 # POST
 

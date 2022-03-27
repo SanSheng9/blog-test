@@ -13,14 +13,14 @@
                   class="img-lg mb-4"
                   alt="profile image"
                 />
-                <h4>{{ profile[0].login }}</h4>
+                <h4>{{ profile[0].username }}</h4>
                 <p class="mt-2 card-text">
                   {{ profile[0].about_me }}
                 </p>
               </div>
               <nuxt-link
-                v-if="user.login === profile[0].login"
-                :to="`/user/${user.login}/edit`"
+                v-if="user.username === profile[0].username"
+                :to="`/user/${user.username}/edit`"
                 class="btn btn-light"
                 >Change my profile!</nuxt-link
               >
@@ -40,7 +40,7 @@ export default {
     profile: { avatar: "", about_me: "" },
   }),
   async asyncData({ params, $axios }) {
-    let profile = await $axios.$get(`/api/profile/?login=${params.id}`);
+    let profile = await $axios.$get(`/api/profile/?username=${params.id}`);
     return { profile };
   },
 

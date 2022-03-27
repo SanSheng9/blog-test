@@ -65,7 +65,7 @@ export default {
   name: "login",
   head() {
     return {
-      title: "Loginb - BLOG",
+      title: "Login - BLOG",
     };
   },
   data() {
@@ -100,7 +100,7 @@ export default {
           credentials: "include",
         });
         const content = await response.json();
-        if (content.login) {
+        if (content.username) {
           this.$store.commit("setUser", content);
           this.$store.commit("setLoggedIn", true);
         }

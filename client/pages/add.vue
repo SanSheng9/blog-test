@@ -93,7 +93,7 @@ export default {
       const config = {
         headers: { "content-type": "multipart/form-data" },
       };
-      this.post.author = this.user.login;
+      this.post.author = this.user.username;
 
       let formData = new FormData();
       for (let data in this.post) {

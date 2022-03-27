@@ -119,5 +119,5 @@ class ProfileViewSet(mixins.ListModelMixin, GenericViewSet):
     queryset = User.objects.all()
     serializer_class = ProfileSerializer
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['login']
+    filterset_fields = ['username']
 

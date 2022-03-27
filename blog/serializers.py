@@ -44,4 +44,4 @@ class UserSerializer(ModelSerializer):
 class ProfileSerializer(ModelSerializer):
     class Meta:
         model = User
-        fields = ['login', 'about_me', 'avatar', 'is_active']
+        fields = ['username', 'about_me', 'avatar', 'is_active']

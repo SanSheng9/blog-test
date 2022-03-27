@@ -23,7 +23,7 @@ export default {
   },
   head() {
     return {
-      title: "Blog",
+      title: "BLOG",
     };
   },
   async asyncData({ $axios }) {
