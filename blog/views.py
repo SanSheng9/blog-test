@@ -19,6 +19,17 @@ class PostViewSet(ModelViewSet):
         email = request.data['author']
         request.data['author'] = User.objects.filter(email=email).first()
 
+class PostEditView(APIView):
+    def patch(self, request):
+        id = request.data['id']
+        post = Post.objects.filter(id=id).first()
+        post.description = request.data['description']
+        post.title = request.data['title']
+        post.photo = request.data['photo']
+        post.save()
+        serializer = PostSerializer(post)
+        return Response(serializer.data)
+
 class CommentViewSet(ModelViewSet):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer

@@ -72,7 +72,7 @@ export default {
         photo: "",
         description: "",
       },
-      preview: "",
+      preview: null,
     };
   },
   methods: {
@@ -97,26 +97,48 @@ export default {
       //      if (editedPost.photo.indexOf("http://") != -1){
       //        delete editedPost["photo"]
       //      }
+      if (this.preview !== null) {
+        const config = {
+          headers: { "content-type": "multipart/form-data" },
+        };
+        let formData = new FormData();
+        for (let data in editedPost) {
+          formData.append(data, editedPost[data]);
+        }
+        try {
+          let response = await this.$axios.$patch(
+            `/api/posts/${editedPost.id}/`,
+            formData,
+            config
+          );
+          this.$router.push("/");
+          console.log("formData: ", formData);
+          console.log("response: ", response);
+        } catch (e) {
+          console.log(e);
+        }
+      } else {
+        let upPost = this.post;
+        upPost.author = this.user.username;
+        upPost.photo = this.post.photo.substr(28);
+        upPost.description = this.post.description;
+        upPost.title = this.post.title;
+        const response = await fetch(`http://localhost:8000/api/posts/edit`, {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
 
-      const config = {
-        headers: { "content-type": "multipart/form-data" },
-      };
-      let formData = new FormData();
-      for (let data in editedPost) {
-        formData.append(data, editedPost[data]);
+          body: JSON.stringify(upPost),
+        });
+        if (response.status === 200 || response.status === 201) {
+          this.$router.push(`/posts/${upPost.id}`);
+        }
       }
-      try {
-        let response = await this.$axios.$patch(
-          `/api/posts/${editedPost.id}/`,
-          formData,
-          config
-        );
-        this.$router.push("/");
-        console.log("formData: ", formData);
-        console.log("response: ", response);
-      } catch (e) {
-        console.log(e);
-      }
+    },
+  },
+  computed: {
+    user({ $store }) {
+      return $store.getters["getUser"];
     },
   },
 };
