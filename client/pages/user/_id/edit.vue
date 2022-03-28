@@ -53,6 +53,7 @@ export default {
   data: () => ({
     preview: null,
     formData: {},
+    upProfile: {},
   }),
   async asyncData({ params, $axios }) {
     let profile = await $axios.$get(`/api/profile/?username=${params.id}`);
@@ -77,8 +78,7 @@ export default {
     },
     async submitProfile() {
       let editedProfile = this.profile[0];
-      console.log(editedProfile);
-      console.log(this.profile[0]);
+      this.upProfile = this.profile[0];
 
       /* if (
         editedProfile.avatar.indexOf("http://") != -1 ||
@@ -87,25 +87,43 @@ export default {
       ) {
         delete editedProfile["avatar"];
       } */
-      let formData = new FormData();
-      formData.append("username", editedProfile.username);
-      formData.append("about_me", editedProfile.about_me);
       if (this.preview !== null) {
+        let formData = new FormData();
+        formData.append("username", editedProfile.username);
+        formData.append("about_me", editedProfile.about_me);
         formData.append("avatar", editedProfile.avatar);
-      }
 
-      console.log(formData);
-      try {
+        console.log(formData);
+        try {
+          const response = await fetch("http://localhost:8000/api/user", {
+            method: "PATCH",
+            credentials: "include",
+            body: formData,
+          });
+          if (response.status === 200 || response.status === 201) {
+            this.$router.push(`/user/${this.profile[0].username}`);
+          }
+        } catch (e) {
+          console.log(e);
+        }
+      } else {
+        this.upProfile = {
+          about_me: this.profile[0].about_me,
+          avatar: this.user.avatar.substr(6),
+          username: this.user.username,
+        };
+
+        console.log(this.upProfile);
         const response = await fetch("http://localhost:8000/api/user", {
           method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+
           credentials: "include",
-          body: formData,
+          body: JSON.stringify(this.upProfile),
         });
         if (response.status === 200 || response.status === 201) {
           this.$router.push(`/user/${this.profile[0].username}`);
         }
-      } catch (e) {
-        console.log(e);
       }
     },
   },

@@ -42,7 +42,7 @@
       </div>
     </nav>
     <nuxt />
-    <notifications position="bottom right" />
+    <notifications position="bottom right" width="30%" />
   </div>
 </template>
 
