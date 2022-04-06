@@ -11,6 +11,7 @@
         <form>
           <!-- Name input -->
           <div class="form-outline mb-4">
+            <label class="form-label" for="registerName">Login</label>
             <input
               v-model="username"
               type="username"
@@ -18,11 +19,11 @@
               class="form-control"
               required
             />
-            <label class="form-label" for="registerName">Login</label>
           </div>
 
           <!-- Email input -->
           <div class="form-outline mb-4">
+            <label class="form-label" for="registerEmail">Email</label>
             <input
               v-model="email"
               type="email"
@@ -30,11 +31,11 @@
               class="form-control"
               required
             />
-            <label class="form-label" for="registerEmail">Email</label>
           </div>
 
           <!-- Password input -->
           <div class="form-outline mb-4">
+            <label class="form-label" for="registerPassword">Password</label>
             <input
               v-model="password"
               type="password"
@@ -43,12 +44,13 @@
               pattern="[0-9a-fA-F]{4,8}"
               required
             />
-            <label class="form-label" for="registerPassword">Password</label>
           </div>
 
           <!-- Repeat Password input -->
           <div class="form-outline mb-4">
-            <input
+            <label class="form-label" for="registerRepeatPassword"
+              >Repeat password</label
+            ><input
               type="password"
               id="registerRepeatPassword"
               class="form-control"
@@ -56,9 +58,6 @@
               required
               v-model="repeatPassword"
             />
-            <label class="form-label" for="registerRepeatPassword"
-              >Repeat password</label
-            >
           </div>
 
           <!-- Submit button -->

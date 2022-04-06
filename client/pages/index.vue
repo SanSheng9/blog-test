@@ -1,6 +1,30 @@
 <template>
-  <div>
-    <div class="posts-list">
+  <div class="home-page">
+    <nav
+      id="navbar-left"
+      class="block-one navbar fixed-left navbar-light bg-light"
+    >
+      <div class="my-container">
+        <form class="form-inline my-2 my-lg-0">
+          <label for="search">Search</label>
+          <input
+            id="search"
+            class="form-control mr-sm-2"
+            type="search"
+            placeholder="..."
+          />
+          <button
+            id="btn-search"
+            class="btn btn-outline-success my-2 my-sm-0"
+            type="submit"
+          >
+            Submit
+          </button>
+        </form>
+      </div>
+    </nav>
+
+    <div class="block-two posts-list">
       <post-card
         class="post-card"
         v-for="post in posts"
@@ -38,6 +62,29 @@ export default {
 </script>
 
 <style scoped>
+.home-page {
+  display: flex;
+  margin-top: 0.7vh;
+}
+
+.block-one {
+  flex: 0 1 20%;
+  min-height: 92vh;
+}
+#navbar-left {
+  display: block;
+}
+.my-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+#btn-search {
+  margin-top: 5px !important;
+}
+.block-two {
+  flex: 1 1 79%;
+}
 .posts-list {
   display: flex;
   justify-content: center;
@@ -45,5 +92,13 @@ export default {
 }
 .post-card {
   margin: 10px;
+}
+@media (max-width: 690px) {
+  .home-page {
+    flex-direction: column;
+  }
+  .block-one {
+    min-height: 1vh;
+  }
 }
 </style>

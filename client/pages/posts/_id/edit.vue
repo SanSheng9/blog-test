@@ -51,6 +51,8 @@
   </main>
 </template>
 <script>
+import { mapGetters } from "vuex";
+
 export default {
   head() {
     return {
@@ -111,36 +113,34 @@ export default {
             formData,
             config
           );
-          this.$router.push("/");
+          this.$router.push(`/posts/${editedPost.id}/`);
           console.log("formData: ", formData);
-          console.log("response: ", response);
         } catch (e) {
           console.log(e);
         }
       } else {
         let upPost = this.post;
-        upPost.author = this.user.username;
+        upPost.author = this.getUser.username;
         upPost.photo = this.post.photo.substr(28);
         upPost.description = this.post.description;
         upPost.title = this.post.title;
-        const response = await fetch(`http://localhost:8000/api/posts/edit`, {
-          method: "PATCH",
-          headers: { "Content-Type": "application/json" },
-          credentials: "include",
+        try {
+          const response = await fetch(`http://localhost:8000/api/posts/edit`, {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" },
+            credentials: "include",
 
-          body: JSON.stringify(upPost),
-        });
-        if (response.status === 200 || response.status === 201) {
-          this.$router.push(`/posts/${upPost.id}`);
-        }
+            body: JSON.stringify(upPost),
+          });
+          if (response.status === 200 || response.status === 201) {
+            this.$router.push(`/posts/${upPost.id}`);
+          }
+          console.log("JSON type");
+        } catch (e) {}
       }
     },
   },
-  computed: {
-    user({ $store }) {
-      return $store.getters["getUser"];
-    },
-  },
+  computed: { ...mapGetters(["getLoggedIn", "getUser"]) },
 };
 </script>
 <style></style>

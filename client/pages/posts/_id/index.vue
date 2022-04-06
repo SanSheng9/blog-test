@@ -1,18 +1,10 @@
 <template>
   <div class="container">
-    <div class="buttons">
-      <nuxt-link
-        v-if="post.author === user.username"
-        :to="`/posts/${post.id}/edit`"
-        class="btn btn-light"
+    <div v-if="post.author === getUser.username" class="buttons">
+      <nuxt-link :to="`/posts/${post.id}/edit`" class="btn btn-light"
         >Редактировать пост</nuxt-link
       >
-      <a
-        v-if="post.author === user.username"
-        @click="deletePost(post.id)"
-        class="btn btn-light"
-        >Удалить пост</a
-      >
+      <a @click="deletePost(post.id)" class="btn btn-light">Удалить пост</a>
     </div>
 
     <div class="col-md-10 blogShort">
@@ -47,10 +39,10 @@
       :style="{ marginBottom: 20 + 'px' }"
       class="row d-flex justify-content-center"
     >
-      <div v-if="loggedIn || comments.length >= 1" class="col-md-8 col-lg-6">
+      <div v-if="getLoggedIn || comments.length >= 1" class="col-md-8 col-lg-6">
         <div class="card shadow-0 border" style="background-color: #00808050">
           <div class="card-body p-4">
-            <div v-if="loggedIn" class="form-outline mb-4">
+            <div v-if="getLoggedIn" class="form-outline mb-4">
               <input
                 type="text"
                 id="addANote"
@@ -117,7 +109,8 @@
   </div>
 </template>
 
-<script>
+<script>import { mapGetters } from "vuex";
+
 export default {
   head() {
     return {
@@ -136,6 +129,7 @@ export default {
     post: {},
     comments: {},
     textComment: "",
+    user: "",
   }),
   methods: {
     async deletePost(id) {
@@ -158,12 +152,12 @@ export default {
         console.log(profile);
         this.comments.forEach((comment) => {
           const profiles = profile.filter((p) => p.author == comment.author);
-          console.log(profiles); 
+          console.log(profiles);
            for (let p of profiles) {
             if ()
-          } 
+          }
         }); */
-        /* 
+        /*
          for (let p of profile) {
           let n = 0;
           if (authors[n].author === profile.author)
@@ -201,14 +195,7 @@ export default {
   mounted() {
     this.getComments(this.post.id);
   },
-  computed: {
-    user({ $store }) {
-      return $store.getters["getUser"];
-    },
-    loggedIn({ $store }) {
-      return $store.getters["getLoggedIn"];
-    },
-  },
+  computed: { ...mapGetters(["getLoggedIn", "getUser"]) },
 };
 </script>
 

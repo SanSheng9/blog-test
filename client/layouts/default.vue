@@ -8,7 +8,7 @@
         data-toggle="collapse"
         data-target="#navbarText"
         aria-controls="navbarText"
-        aria-expanded="false"
+        aria-expanded="true"
         aria-label="Toggle navigation"
       >
         <span class="navbar-toggler-icon"></span>
@@ -16,7 +16,7 @@
       <div class="collapse navbar-collapse" id="navbarText">
         <ul class="navbar-nav mr-auto">
           <nuxt-link
-            v-if="loggedIn"
+            v-if="getLoggedIn"
             active-class="active"
             :to="`/add/`"
             class="nav-link"
@@ -24,12 +24,14 @@
           >
         </ul>
 
-        <span v-if="loggedIn" class="navbar-text">
-          <nuxt-link :to="`/user/${user.username}`">{{ user.email }}</nuxt-link>
+        <span v-if="getLoggedIn" class="navbar-text">
+          <nuxt-link :to="`/user/${getUser.username}`">{{
+            getUser.email
+          }}</nuxt-link>
           / <a class="logout" @click="logout()">Log out</a>
         </span>
 
-        <span class="navbar-text" v-if="!loggedIn">
+        <span class="navbar-text" v-if="!getLoggedIn">
           <ul class="navbar-nav mr-auto">
             <nuxt-link active-class="active" :to="`/login/`" class="nav-link"
               >Login</nuxt-link
@@ -47,13 +49,11 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 export default {
   name: "layout",
   data() {
-    return {
-      localContent: {},
-      localLoggedIn: false,
-    };
+    return {};
   },
   async mounted() {
     try {
@@ -63,11 +63,8 @@ export default {
       });
       const content = await response.json();
       if (content.username) {
-        this.localContent = content;
-
-        this.localLoggedIn = true;
-        this.$store.commit("setUser", this.localContent);
-        this.$store.commit("setLoggedIn", this.localLoggedIn);
+        this.$store.commit("setUser", content);
+        this.$store.commit("setLoggedIn", true);
       }
     } catch (e) {
       (this.message = "You are not logged in"), e;
@@ -80,20 +77,13 @@ export default {
         headers: { "Content-Type": "application/json" },
         credentials: "include",
       });
-      this.localContent = "";
-      this.localLoggedIn = false;
-      this.$store.commit("setUser", this.localContent);
-      this.$store.commit("setLoggedIn", this.localLoggedIn);
+      this.$store.commit("setUser", "");
+      this.$store.commit("setLoggedIn", false);
       this.$router.push("/login");
     },
   },
   computed: {
-    user({ $store }) {
-      return $store.getters["getUser"];
-    },
-    loggedIn({ $store }) {
-      return $store.getters["getLoggedIn"];
-    },
+    ...mapGetters(["getLoggedIn", "getUser"]),
   },
 };
 </script>
@@ -117,8 +107,5 @@ select:-webkit-autofill:focus {
   -webkit-text-fill-color: #008080;
   -webkit-box-shadow: 0 0 0px 1000px rgba(0, 128, 128, 0.157) inset;
   transition: background-color 5000s ease-in-out 0s;
-}
-#navbar {
-  background-color: #00808050 !important;
 }
 </style>

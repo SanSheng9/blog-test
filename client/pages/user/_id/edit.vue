@@ -7,7 +7,7 @@
             <div class="card">
               <!-- USER PROFILE CHANGE -->
               <div
-                v-if="user.username === profile[0].username"
+                v-if="getUser.username === profile[0].username"
                 class="card-body text-center"
               >
                 <!-- avatar -->
@@ -48,13 +48,16 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 export default {
   layout: "default",
-  data: () => ({
-    preview: null,
-    formData: {},
-    upProfile: {},
-  }),
+  data() {
+    return {
+      upProfile: {},
+      preview: null,
+    };
+  },
   async asyncData({ params, $axios }) {
     let profile = await $axios.$get(`/api/profile/?username=${params.id}`);
     return { profile };
@@ -70,9 +73,8 @@ export default {
     },
     createImage(file) {
       let reader = new FileReader();
-      let vm = this;
       reader.onload = (e) => {
-        vm.preview = e.target.result;
+        this.preview = e.target.result;
       };
       reader.readAsDataURL(file);
     },
@@ -109,29 +111,28 @@ export default {
       } else {
         this.upProfile = {
           about_me: this.profile[0].about_me,
-          avatar: this.user.avatar.substr(6),
-          username: this.user.username,
+          avatar: this.getUser.avatar.substr(6),
+          username: this.getUser.username,
         };
 
         console.log(this.upProfile);
-        const response = await fetch("http://localhost:8000/api/user", {
-          method: "PATCH",
-          headers: { "Content-Type": "application/json" },
+        try {
+          const response = await fetch("http://localhost:8000/api/user", {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" },
 
-          credentials: "include",
-          body: JSON.stringify(this.upProfile),
-        });
-        if (response.status === 200 || response.status === 201) {
-          this.$router.push(`/user/${this.profile[0].username}`);
-        }
+            credentials: "include",
+            body: JSON.stringify(this.upProfile),
+          });
+          if (response.status === 200 || response.status === 201) {
+            this.$router.push(`/user/${this.profile[0].username}`);
+          }
+          console.log("JSON type");
+        } catch (e) {}
       }
     },
   },
-  computed: {
-    user({ $store }) {
-      return $store.getters["getUser"];
-    },
-  },
+  computed: { ...mapGetters(["getLoggedIn", "getUser"]) },
 };
 </script>
 

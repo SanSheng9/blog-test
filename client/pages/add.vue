@@ -56,6 +56,8 @@
   </div>
 </template>
 <script>
+import { mapGetters } from "vuex";
+
 export default {
   head() {
     return {
@@ -93,7 +95,7 @@ export default {
       const config = {
         headers: { "content-type": "multipart/form-data" },
       };
-      this.post.author = this.user.username;
+      this.post.author = this.getUser.username;
 
       let formData = new FormData();
       for (let data in this.post) {
@@ -113,14 +115,7 @@ export default {
       }
     },
   },
-  computed: {
-    user({ $store }) {
-      return $store.getters["getUser"];
-    },
-    loggedIn({ $store }) {
-      return $store.getters["getLoggedIn"];
-    },
-  },
+  computed: { ...mapGetters(["getLoggedIn", "getUser"]) },
 };
 </script>
 <style scoped></style>

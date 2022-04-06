@@ -19,8 +19,8 @@
                 </p>
               </div>
               <nuxt-link
-                v-if="user.username === profile[0].username"
-                :to="`/user/${user.username}/edit`"
+                v-if="getUser.username === profile[0].username"
+                :to="`/user/${getUser.username}/edit`"
                 class="btn btn-light"
                 >Change my profile!</nuxt-link
               >
@@ -33,6 +33,8 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 export default {
   layout: "default",
   data: () => ({
@@ -44,11 +46,7 @@ export default {
     return { profile };
   },
 
-  computed: {
-    user({ $store }) {
-      return $store.getters["getUser"];
-    },
-  },
+  computed: { ...mapGetters(["getLoggedIn", "getUser"]) },
 };
 </script>
 

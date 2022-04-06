@@ -11,24 +11,24 @@
         <form>
           <!-- Email input -->
           <div class="form-outline mb-4">
+            <label class="form-label" for="loginName">Email</label>
             <input
               v-model="email"
               type="email"
               id="loginName"
               class="form-control"
             />
-            <label class="form-label" for="loginName">Email</label>
           </div>
 
           <!-- Password input -->
           <div class="form-outline mb-4">
-            <input
+            <label class="form-label" for="loginPassword">Password</label
+            ><input
               v-model="password"
               type="password"
               id="loginPassword"
               class="form-control"
             />
-            <label class="form-label" for="loginPassword">Password</label>
           </div>
 
           <!-- 2 column grid layout -->
