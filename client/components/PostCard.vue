@@ -27,6 +27,13 @@ export default {
   min-width: 400px;
   min-height: 300px;
 }
+.post-card h5,
+.post-card .btn {
+  z-index: 3;
+}
+#card img {
+  z-index: 1;
+}
 .card-img-overlay {
   display: flex;
   flex-direction: column;

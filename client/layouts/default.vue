@@ -14,15 +14,7 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarText">
-        <ul class="navbar-nav mr-auto">
-          <nuxt-link
-            v-if="getLoggedIn"
-            active-class="active"
-            :to="`/add/`"
-            class="nav-link"
-            >+ Add a post</nuxt-link
-          >
-        </ul>
+        <ul class="navbar-nav mr-auto"></ul>
 
         <span v-if="getLoggedIn" class="navbar-text">
           <nuxt-link :to="`/user/${getUser.username}`">{{

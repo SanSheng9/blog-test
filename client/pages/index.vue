@@ -5,6 +5,13 @@
       class="block-one navbar fixed-left navbar-light bg-light"
     >
       <div class="my-container">
+        <nuxt-link
+          v-if="getLoggedIn"
+          :to="`/add/`"
+          id="btn-add-post"
+          class="btn btn-secondary"
+          >Add a post</nuxt-link
+        >
         <form class="form-inline my-2 my-lg-0">
           <label for="search">Search</label>
           <input
@@ -16,7 +23,7 @@
           />
           <button
             id="btn-search"
-            class="btn btn-light my-2 my-sm-0"
+            class="btn btn-secondary"
             type="submit"
             @click.prevent="searchQuery = ''"
           >
@@ -44,6 +51,8 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 import PostCard from "~/components/PostCard.vue";
 export default {
   components: {
@@ -68,6 +77,7 @@ export default {
         post.title.toLowerCase().includes(this.searchQuery.toLowerCase())
       );
     },
+    ...mapGetters(["getLoggedIn", "getUser"]),
   },
 };
 </script>
@@ -103,6 +113,10 @@ export default {
 }
 .post-card {
   margin: 10px;
+}
+#btn-add-post {
+  min-width: 100%;
+  margin-bottom: 15px;
 }
 @media (max-width: 690px) {
   .home-page {

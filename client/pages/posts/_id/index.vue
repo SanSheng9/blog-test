@@ -2,9 +2,9 @@
   <div class="container">
     <div v-if="post.author === getUser.username" class="buttons">
       <nuxt-link :to="`/posts/${post.id}/edit`" class="btn btn-light"
-        >Редактировать пост</nuxt-link
+        >Edit the post</nuxt-link
       >
-      <a @click="deletePost(post.id)" class="btn btn-light">Удалить пост</a>
+      <a @click="deletePost(post.id)" class="btn btn-light">Delete a post</a>
     </div>
 
     <div class="col-md-10 blogShort">
@@ -52,10 +52,10 @@
               />
               <label
                 @click="createComment(post.id)"
-                class="btn btn-light"
+                class="btn btn-secondary"
                 for="addANote"
                 :style="{ marginTop: 10 + 'px' }"
-                >+ Add a comment</label
+                >Add a comment</label
               >
             </div>
             <transition-group name="comment-list">
