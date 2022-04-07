@@ -103,9 +103,9 @@ textarea:-webkit-autofill:focus,
 select:-webkit-autofill,
 select:-webkit-autofill:hover,
 select:-webkit-autofill:focus {
-  border: 1px solid teal;
-  -webkit-text-fill-color: #008080;
-  -webkit-box-shadow: 0 0 0px 1000px rgba(0, 128, 128, 0.157) inset;
+  border: 1px solid darkgray;
+  -webkit-text-fill-color: darkgray;
+  -webkit-box-shadow: 0 0 0px 1000px rgba(169, 169, 169, 0.581) inset;
   transition: background-color 5000s ease-in-out 0s;
 }
 </style>

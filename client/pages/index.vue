@@ -12,29 +12,33 @@
             class="form-control mr-sm-2"
             type="search"
             placeholder="..."
+            v-model="searchQuery"
           />
           <button
             id="btn-search"
-            class="btn btn-outline-success my-2 my-sm-0"
+            class="btn btn-light my-2 my-sm-0"
             type="submit"
+            @click.prevent="searchQuery = ''"
           >
-            Submit
+            Clear
           </button>
         </form>
       </div>
     </nav>
 
     <div class="block-two posts-list">
-      <post-card
-        class="post-card"
-        v-for="post in posts"
-        :key="post.id"
-        :title="post.title"
-        :description="post.description"
-        :image="post.photo"
-        :id="post.id"
-      >
-      </post-card>
+      <transition-group name="t-post-list">
+        <post-card
+          class="post-card"
+          v-for="post in searchedProducts"
+          :key="post.id"
+          :title="post.title"
+          :description="post.description"
+          :image="post.photo"
+          :id="post.id"
+        >
+        </post-card
+      ></transition-group>
     </div>
   </div>
 </template>
@@ -56,8 +60,15 @@ export default {
   },
   data: () => ({
     posts: {},
+    searchQuery: "",
   }),
-  methods: {},
+  computed: {
+    searchedProducts() {
+      return this.posts.filter((post) =>
+        post.title.toLowerCase().includes(this.searchQuery.toLowerCase())
+      );
+    },
+  },
 };
 </script>
 
@@ -100,5 +111,14 @@ export default {
   .block-one {
     min-height: 1vh;
   }
+}
+.t-post-list-enter-active,
+.t-post-list-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.t-post-list-enter-from,
+.t-post-list-leave-to {
+  opacity: 0;
 }
 </style>

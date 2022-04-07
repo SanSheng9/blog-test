@@ -58,50 +58,51 @@
                 >+ Add a comment</label
               >
             </div>
+            <transition-group name="comment-list">
+              <div
+                id="comment"
+                v-for="comment in comments"
+                :key="comment.id"
+                class="card"
+              >
+                <div class="card-body">
+                  <p>{{ comment.body }}</p>
 
-            <div
-              id="comment"
-              v-for="comment in comments"
-              :key="comment.id"
-              class="card"
-            >
-              <div class="card-body">
-                <p>{{ comment.body }}</p>
-
-                <div class="d-flex justify-content-between">
-                  <div class="d-flex flex-row align-items-center">
-                    <!--        <img
+                  <div class="d-flex justify-content-between">
+                    <div class="d-flex flex-row align-items-center">
+                      <!--        <img
                       :src="comment.avatar"
                       alt="avatar"
                       width="25"
                       height="25"
                     /> -->
+                      <p
+                        class="small mb-0 ms-2"
+                        id="user"
+                        @click="getProfileUser(comment.author)"
+                      >
+                        <b>{{ comment.author }}</b>
+                      </p>
+                    </div>
+                    <div class="d-flex flex-row align-items-center">
+                      <p class="small mb-0 ms-2">{{ comment.created_at }}</p>
+                    </div>
+                  </div>
+                  <div
+                    v-if="comment.author === getUser.username"
+                    class="d-flex flex-row align-items-center"
+                  >
                     <p
-                      class="small mb-0 ms-2"
-                      id="user"
-                      @click="getProfileUser(comment.author)"
+                      id="delete"
+                      @click="deleteComment(comment.id)"
+                      class="small text-muted mb-0"
                     >
-                      <b>{{ comment.author }}</b>
+                      Delete
                     </p>
                   </div>
-                  <div class="d-flex flex-row align-items-center">
-                    <p class="small mb-0 ms-2">{{ comment.created_at }}</p>
-                  </div>
-                </div>
-                <div
-                  v-if="comment.author === user.username"
-                  class="d-flex flex-row align-items-center"
-                >
-                  <p
-                    id="delete"
-                    @click="deleteComment(comment.id)"
-                    class="small text-muted mb-0"
-                  >
-                    Delete
-                  </p>
                 </div>
               </div>
-            </div>
+            </transition-group>
           </div>
         </div>
       </div>
@@ -109,7 +110,8 @@
   </div>
 </template>
 
-<script>import { mapGetters } from "vuex";
+<script>
+import { mapGetters } from "vuex";
 
 export default {
   head() {
@@ -180,11 +182,12 @@ export default {
       try {
         let formComment = {
           body: this.textComment,
-          author: this.user.username,
+          author: this.getUser.username,
           post: id,
         };
         await this.$axios.$post("api/comments/", formComment);
         let newComments = await this.$axios.$get(`/api/comments/?post=${id}`); // get new list of recipes
+        this.textComment = "";
         this.comments = newComments; // update list of recipes
         this.$router.push(`/posts/${id}`);
       } catch (e) {
@@ -231,5 +234,15 @@ export default {
 }
 .card {
   margin-top: 30px;
+  background-color: #f8f9fa !important;
+}
+.comment-list-enter-active,
+.comment-list-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.comment-list-enter-from,
+.comment-list-leave-to {
+  opacity: 0;
 }
 </style>
